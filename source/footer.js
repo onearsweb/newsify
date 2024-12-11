@@ -18,7 +18,7 @@ const Footer = () => {
         onPress={() => navigation.navigate('Home')}
       >
         <Image 
-          source={require('../assets/footer/home.png')} 
+          source={require('../source/assets/img/footer/home.png')} 
           style={isHomeFocused ? styles.iconActive : styles.iconInactive} 
         />
         <Text style={isHomeFocused ? styles.textActive : styles.textInactive}>Home</Text>
@@ -30,7 +30,7 @@ const Footer = () => {
         onPress={() => navigation.navigate('Profile')}
       >
         <Image 
-          source={require('../assets/footer/profile.png')} 
+          source={require('../source/assets/img/footer/profile.png')} 
           style={isProfileFocused ? styles.iconActive : styles.iconInactive} 
         />
         <Text style={isProfileFocused ? styles.textActive : styles.textInactive}>Profile</Text>

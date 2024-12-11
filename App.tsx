@@ -21,7 +21,6 @@ const App = () => {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
-      <Footer />
     </NavigationContainer>
   );
 };
