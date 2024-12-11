@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ScrollView, Image, StyleSheet, Dimensions, Animated, FlatList } from 'react-native';
+import { View, Text, ScrollView, Image, StyleSheet, Dimensions, Animated, FlatList, TouchableOpacity  } from 'react-native';
 import Footer from './footer';
 
 const Home = () => {
@@ -11,11 +11,11 @@ const Home = () => {
   useEffect(() => {
     const fetchNewsData = async () => {
       const apiUrls = [
-        "https://newsapi.org/v2/everything?q=apple&from=2024-12-07&to=2024-12-07&sortBy=popularity&apiKey=0c8cdda648d74f5aac01aadf55c159be",
-        "https://newsapi.org/v2/everything?q=tesla&from=2024-11-08&sortBy=publishedAt&apiKey=0c8cdda648d74f5aac01aadf55c159be",
+        "https://newsapi.org/v2/everything?q=apple&from=2024-12-10&to=2024-12-10&sortBy=popularity&apiKey=0c8cdda648d74f5aac01aadf55c159be",
+        "https://newsapi.org/v2/everything?q=tesla&from=2024-11-11&sortBy=publishedAt&apiKey=0c8cdda648d74f5aac01aadf55c159be",
         "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=0c8cdda648d74f5aac01aadf55c159be",
         "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=0c8cdda648d74f5aac01aadf55c159be",
-        "https://newsapi.org/v2/everything?domains=wsj.com&apiKey=0c8cdda648d74f5aac01aadf55c159be",
+        "https://newsapi.org/v2/everything?domains=wsj.com&apiKey=0c8cdda648d74f5aac01aadf55c159be"
       ];
 
       try {
@@ -41,11 +41,11 @@ const Home = () => {
   const renderHeaderItem = ({ item }) => (
     <View style={styles.headerItemContainer}>
       <Image 
-        source={{ uri: item.urlToImage || 'https://via.placeholder.com/150' }} 
+        // source={{ uri: item.urlToImage || 'https://via.placeholder.com/150' }} 
         style={styles.headerImage} 
       />
-      <Text style={styles.headerTitle} numberOfLines={1}>{item.title}</Text>
-      <Text style={styles.headerSubtitle} numberOfLines={3}>{item.description}</Text>
+      {/* <Text style={styles.headerTitle} numberOfLines={1}>{item.title}</Text>
+      <Text style={styles.headerSubtitle} numberOfLines={3}>{item.description}</Text> */}
     </View>
   );
 
@@ -87,20 +87,32 @@ const Home = () => {
         )}
 
         {/* Top Category Section */}
-        {/* <View style={styles.topCategorySection}>
-          <Text style={styles.sectionTitle}>Top Category</Text>
-          <TouchableOpacity>
-            <Text style={styles.viewAllText}>View all ➜</Text>
-          </TouchableOpacity>
-          <View style={styles.categoriesContainer}>
-            <View style={styles.categoryCard}>
-              <Text style={styles.categoryText}>AI</Text>
-            </View>
-            <View style={styles.categoryCard}>
-              <Text style={styles.categoryText}>Apple</Text>
-            </View>
+        <View style={styles.topCategorySection}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>TOP CATEGORY</Text>
+            <TouchableOpacity>
+              <Text style={styles.viewAllText}>View all ➜</Text>
+            </TouchableOpacity>
           </View>
-        </View> */}
+          <Animated.FlatList
+            data={[
+              { id: '1', name: 'All', icon: require('../source/assets/img/category/all.png') },
+              { id: '2', name: 'Apple', icon: require('../source/assets/img/category/apple.png') },
+              { id: '3', name: 'Tesla', icon: require('../source/assets/img/category/tesla.png') },
+            ]}
+            horizontal
+            keyExtractor={(item) => item.id}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <View style={styles.categoryCard}>
+                <Image source={item.icon} style={styles.categoryIcon} />
+                <Text style={styles.categoryText}>{item.name}</Text>
+              </View>
+            )}
+          />
+        </View>
+
+
 
         {/* Most Read Section */}
         {/* <View style={styles.mostReadSection}>
@@ -151,35 +163,40 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 
-  // Header
+  // =================================================================== Header ===================================================================
   contentContainer: {
     flex: 1,
     marginBottom: 60,
   },
+
   headerItemContainer: {
     width: Dimensions.get('window').width,
     borderBottomColor: '#767E94',
     borderBottomWidth: 1,
-    fontFamily: 'Nunito-Regular' 
+    fontFamily: 'Nunito-Regular'
   },
+
   headerImage: {
     width: '100%',
     height: 200,
   },
+
   headerTitle: {
     fontSize: 18,
     marginVertical: 8,
     color: '#191F33',
-    paddingLeft: 15, 
-    paddingRight: 15
+    paddingLeft: 20, 
+    paddingRight: 20
   },
+
   headerSubtitle: {
     fontSize: 14,
     color: '#767E94',
-    paddingLeft: 15, 
-    paddingRight: 15,
-    paddingBottom: 15,
+    paddingLeft: 20, 
+    paddingRight: 20,
+    paddingBottom: 20,
   },
+
   carouselContainer: {
     marginBottom: 20,
   },
@@ -196,31 +213,53 @@ const styles = StyleSheet.create({
   //   marginHorizontal: 4,
   // },
 
-  // category
+  // =================================================================== Category ===================================================================
   topCategorySection: {
     padding: 16,
   },
+
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
   sectionTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: 'Nunito-Bold'
   },
+
   viewAllText: {
     color: '#007bff',
     marginTop: 4,
+    fontFamily: 'Nunito-Regular'
   },
-  categoriesContainer: {
-    flexDirection: 'row',
-    marginTop: 8,
-  },
+
   categoryCard: {
     backgroundColor: '#f0f0f0',
+    marginTop: 16,
+    width: 179, 
+    height: 92, 
     padding: 16,
     borderRadius: 8,
     marginRight: 8,
+    flexDirection: 'column',
+    alignItems: 'flex-start', 
   },
+  
+  categoryIcon: {
+    width: 24,
+    height: 24,
+  },
+
   categoryText: {
     fontSize: 14,
+    marginTop: 12,
+    fontFamily: 'Nunito-Regular'
   },
+  
+
+  // Artikel 
   mostReadSection: {
     padding: 16,
   },
