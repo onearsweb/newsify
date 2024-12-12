@@ -48,12 +48,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderTopColor: '#ddd',
-
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-
   },
   button: {
     alignItems: 'center',
@@ -72,11 +70,13 @@ const styles = StyleSheet.create({
     color: '#aaa',
     fontSize: 12,
     marginTop: 4,
+    fontFamily: 'Poppins-Regular'
   },
   textActive: {
     color: '#000',
     fontSize: 12,
     marginTop: 4,
+    fontFamily: 'Poppins-Regular'
   },
 });
 

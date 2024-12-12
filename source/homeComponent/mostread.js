@@ -4,58 +4,92 @@ import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react
 const MostRead = () => {
   const [articles, setArticles] = useState([
     {
-      id: '1',
-      title: 'Proin vitae suscipit nisi',
-      subtitle: 'Mauris odio nisi, posuere ac viverra eu, molestie...',
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      id: '2',
-      title: 'Cras tempor rutrum sem',
-      subtitle: 'Sit amet congue, malesuada fames ac turpis egestas.',
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      id: '3',
-      title: 'Aenean et enim quis nulla',
-      subtitle: 'Interdum posuere class aptent taciti sociosqu ad.',
-      image: 'https://via.placeholder.com/150',
-    },
-  ]);
-
-  const loadMoreArticles = () => {
-    const newArticles = [
-      {
-        id: Math.random().toString(),
-        title: 'New Article',
-        subtitle: 'This is a new article loaded.',
+        id: '1',
+        title: 'Proin vitae suscipit nisi coba aj sebelum kehabisan',
+        subtitle: 'Mauris odio nisi, posuere ac viverra eu, molestie sed sapien. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Proin vitae suscipit nisi, sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Mauris odio nisi, posuere ac viverra eu, molestie sed sapien.',
         image: 'https://via.placeholder.com/150',
       },
-    ];
-    setArticles([...articles, ...newArticles]);
+      {
+        id: '2',
+        title: 'Cras tempor rutrum sem a a a a a a a a a a a a 1 1 1 1',
+        subtitle: 'Sit amet congue, malesuada fames ac turpis egestas. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Cras tempor rutrum sem, sit amet congue, malesuada fames ac turpis egestas. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: '3',
+        title: 'Aenean et enim quis nulla',
+        subtitle: 'Interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Aenean et enim quis nulla, interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: '4',
+        title: 'Proin vitae suscipit nisi',
+        subtitle: 'Mauris odio nisi, posuere ac viverra eu, molestie sed sapien. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Proin vitae suscipit nisi, sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Mauris odio nisi, posuere ac viverra eu, molestie sed sapien.',
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: '5',
+        title: 'Cras tempor rutrum sem',
+        subtitle: 'Sit amet congue, malesuada fames ac turpis egestas. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Cras tempor rutrum sem, sit amet congue, malesuada fames ac turpis egestas. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: '6',
+        title: 'Aenean et enim quis nulla',
+        subtitle: 'Interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Aenean et enim quis nulla, interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: '7',
+        title: 'Aenean et enim quis nulla 1',
+        subtitle: 'Interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Aenean et enim quis nulla, interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: '8',
+        title: 'Aenean et enim quis nulla 2 ',
+        subtitle: 'Interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Aenean et enim quis nulla, interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: '9',
+        title: 'Aenean et enim quis nulla 3',
+        subtitle: 'Interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Aenean et enim quis nulla, interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
+        image: 'https://via.placeholder.com/150',
+      },
+  ]);
+
+  const [displayedArticles, setDisplayedArticles] = useState(articles.slice(0, 4));
+
+  const loadMoreArticles = () => {
+    const newArticles = articles.slice(displayedArticles.length, Math.min(displayedArticles.length + 4, articles.length));
+    setDisplayedArticles([...displayedArticles, ...newArticles]);
   };
 
   const renderArticle = ({ item, index }) => {
     const isFirstItem = index === 0;
+    const title = isFirstItem ? item.title.split(' ').slice(0, 15).join(' ') : item.title.split(' ').slice(0, 10).join(' ');
+    const subtitle = isFirstItem ? item.subtitle.split(' ').slice(0, 20).join(' ') : item.subtitle.split(' ').slice(0, 6).join(' ');
+  
     return (
       <View style={[isFirstItem ? styles.firstArticleCard : styles.articleCard]}>
         {isFirstItem ? (
-          <Image source={{ uri: item.image }} style={styles.firstArticleImage} />
+          <View>
+            <Image source={{ uri: item.image }} style={styles.firstArticleImage} />
+            <View style={styles.firstArticleTextContainer}>
+              <Text style={styles.firstArticleTitle}>{title}</Text>
+              <Text style={styles.firstArticleSubtitle}>{subtitle}</Text>
+            </View>
+          </View>
         ) : (
+          <View style={styles.articleTextContainer}>
+            <Text style={styles.articleTitle}>{title}</Text>
+            <Text style={styles.articleSubtitle}>{subtitle}</Text>
+          </View>
+        )}
+        {!isFirstItem && (
           <Image source={{ uri: item.image }} style={styles.articleImage} />
         )}
-        <View style={[isFirstItem ? styles.firstArticleTextContainer : styles.articleTextContainer]}>
-          {isFirstItem ? (
-            <Text style={styles.firstArticleTitle}>{item.title}</Text>
-          ) : (
-            <Text style={styles.articleTitle}>{item.title}</Text>
-          )}
-          {isFirstItem ? (
-            <Text style={styles.firstArticleSubtitle}>{item.subtitle}</Text>
-          ) : (
-            <Text style={styles.articleSubtitle}>{item.subtitle}</Text>
-          )}
-        </View>
       </View>
     );
   };
@@ -64,13 +98,15 @@ const MostRead = () => {
     <View style={styles.mostReadSection}>
       <Text style={styles.sectionTitle}>Most Read</Text>
       <FlatList
-        data={articles}
+        data={displayedArticles}
         renderItem={renderArticle}
         keyExtractor={(item) => item.id}
       />
-      <TouchableOpacity style={styles.loadMoreButton} onPress={loadMoreArticles}>
-        <Text style={styles.loadMoreText}>LOAD MORE</Text>
-      </TouchableOpacity>
+      {displayedArticles.length < articles.length && (
+        <TouchableOpacity style={styles.loadMoreButton} onPress={loadMoreArticles}>
+          <Text style={styles.loadMoreText}>LOAD MORE</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -80,39 +116,38 @@ const styles = StyleSheet.create({
       padding: 16,
     },
     sectionTitle: {
-        fontFamily: 'Nunito-Bold',
-        fontSize: 16,
-        color: '#191F33'
+      fontFamily: 'Nunito-SemiBold',
+      fontSize: 16,
+      color: '#191F33'
     },
     articleCard: {
       flexDirection: 'row',
       marginVertical: 8,
       borderColor: '#ccc',
       borderWidth: 1,
-      borderRadius: 8,
+      justifyContent: 'space-between',
+      width: 378,
+      height: 100,
     },
     firstArticleCard: {
+      width: 378,
+      height: 420,
       marginBottom: 20,
       borderColor: '#ccc',
       borderWidth: 1,
-      borderRadius: 8,
       marginTop: 20
     },
     firstArticleImage: {
-      width: '100%',
+      width: 378,
       height: 200,
-      borderTopLeftRadius: 8,
-      borderTopRightRadius: 8,
     },
     firstArticleTextContainer: {
       padding: 20,
       borderBottomLeftRadius: 8,
       borderBottomRightRadius: 8,
-      borderColor: '#ccc',
-      borderWidth: 1,
     },
     firstArticleTitle: {
-      fontFamily: 'Nunito-Bold',
+      fontFamily: 'Nunito-Regular',
       color: '#191F33',
       fontSize: 16,
       marginBottom: 8,
@@ -124,35 +159,44 @@ const styles = StyleSheet.create({
       marginBottom: 20,
     },
     articleImage: {
-      width: 80,
-      height: 80,
-      borderRadius: 8,
+      width: 100,
+      height: 100,
+      resizeMode: 'cover',
     },
     articleTextContainer: {
       marginLeft: 8,
       flex: 1,
     },
     articleTitle: {
+      marginTop: 10,
+      marginLeft: 10,
+      marginRight: 10,
       fontSize: 14,
-      fontFamily: 'Nunito-Bold',
+      fontFamily: 'Nunito-Regular',
       color: '#191F33',
     },
     articleSubtitle: {
+      marginTop: 10,
+      marginLeft: 10,
+      marginRight: 10,
       fontSize: 12,
       fontFamily: 'Nunito-Reguler',
       color: '#767E94',
     },
     loadMoreButton: {
+      width: 374,
+      height: 48,
       marginTop: 16,
       alignSelf: 'center',
+      justifyContent: 'center',
       paddingVertical: 8,
       paddingHorizontal: 16,
-      backgroundColor: '#007bff',
-      borderRadius: 8,
+      backgroundColor: '#e6f0fd',
     },
     loadMoreText: {
-      color: '#fff',
-      fontWeight: 'bold',
+      fontFamily: 'Inter_18pt-SemiBold',
+      textAlign: 'center',
+      color: '#0864ED',
     },
 });
 

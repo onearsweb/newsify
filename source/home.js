@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ScrollView, Image, StyleSheet, Dimensions, Animated, FlatList, TouchableOpacity  } from 'react-native';
 import Footer from './footer';
 import MostRead from './homeComponent/mostread';
+import LatestNews from './homeComponent/latestnews';
 
 const Home = () => {
   const [latestNews, setLatestNews] = useState([]);
@@ -52,109 +53,66 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.contentContainer}>
-        {/* Header Section with Native Carousel */}
-        {headerNews.length > 0 && (
-          <View style={styles.carouselContainer}>
-            <Animated.FlatList
-              data={headerNews}
-              horizontal
-              pagingEnabled
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderHeaderItem}
-              onScroll={Animated.event(
-                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                { useNativeDriver: false }
-              )}
-            />
-
-            {/* indikator (belum kepake) */}
-            <View style={styles.indicatorContainer}>
-              {headerNews.map((_, index) => {
-                const scale = scrollX.interpolate({
-                  inputRange: [
-                    (index - 1) * Dimensions.get('window').width,
-                    index * Dimensions.get('window').width,
-                    (index + 1) * Dimensions.get('window').width,
-                  ],
-                  outputRange: [0.8, 1.2, 0.8],
-                  extrapolate: 'clamp',
-                });
-                return <Animated.View key={index} style={[styles.indicator, { transform: [{ scale }] }]} />;
-              })}
-            </View>
-          </View>
-        )}
-
-        {/* Top Category Section */}
-        <View style={styles.topCategorySection}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>TOP CATEGORY</Text>
-            <TouchableOpacity>
-              <Text style={styles.viewAllText}>View all ➜</Text>
-            </TouchableOpacity>
-          </View>
-          <Animated.FlatList
-            data={[
-              { id: '1', name: 'All', icon: require('../source/assets/img/category/all.png') },
-              { id: '2', name: 'Apple', icon: require('../source/assets/img/category/apple.png') },
-              { id: '3', name: 'Tesla', icon: require('../source/assets/img/category/tesla.png') },
-            ]}
-            horizontal
-            keyExtractor={(item) => item.id}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={styles.categoryCard}>
-                <Image source={item.icon} style={styles.categoryIcon} />
-                <Text style={styles.categoryText}>{item.name}</Text>
+      <FlatList
+        data={[]} // Karena konten utama tidak berbasis data
+        renderItem={null} // Tidak diperlukan item
+        keyExtractor={(item, index) => index.toString()}
+        ListHeaderComponent={
+          <>
+            {/* Header Section */}
+            {headerNews.length > 0 && (
+              <View style={styles.carouselContainer}>
+                <Animated.FlatList
+                  data={headerNews}
+                  horizontal
+                  pagingEnabled
+                  showsHorizontalScrollIndicator={false}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={renderHeaderItem}
+                  onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                    { useNativeDriver: false }
+                  )}
+                />
               </View>
             )}
-          />
-        </View>
 
-
-
-        {/* Most Read Section */}
-        {/* <View style={styles.mostReadSection}>
-          <Text style={styles.sectionTitle}>Most Read</Text>
-          {mostRead.map((article, index) => (
-            <View key={index} style={styles.articleCard}>
-              <Image 
-                // source={{ uri: item.urlToImage || 'https://via.placeholder.com/150' }} 
-                source={{uri : 'https://via.placeholder.com/150' }} 
-                style={styles.articleImage} 
-              />
-              <View style={styles.articleTextContainer}>
-                <Text style={styles.articleTitle}>Lorem Ipsum</Text>
-                <Text style={styles.articleSubtitle}>Lorem Ipsum, Lorem Ipsum, Lorem Ipsum, </Text>
+            {/* Top Category Section */}
+            <View style={styles.topCategorySection}>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.sectionTitle}>TOP CATEGORY</Text>
+                <TouchableOpacity>
+                  <Text style={styles.viewAllText}>View all ➜</Text>
+                </TouchableOpacity>
               </View>
-            </View>
-          ))}
-          <TouchableOpacity style={styles.loadMoreButton}>
-            <Text style={styles.loadMoreText}>LOAD MORE</Text>
-          </TouchableOpacity>
-        </View> */}
-
-        <MostRead />
-
-        {/* Latest News Section */}
-        {/* <View style={styles.latestNewsSection}>
-          <Text style={styles.sectionTitle}>Latest News</Text>
-          {latestNews.map((article, index) => (
-            <View key={index} style={styles.articleCard}>
-              <Image 
-                source={{ uri: article.urlToImage }} 
-                style={styles.articleImage} 
+              <FlatList
+                data={[
+                  { id: '1', name: 'All', icon: require('../source/assets/img/category/all.png') },
+                  { id: '2', name: 'Apple', icon: require('../source/assets/img/category/apple.png') },
+                  { id: '3', name: 'Tesla', icon: require('../source/assets/img/category/tesla.png') },
+                ]}
+                horizontal
+                keyExtractor={(item) => item.id}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({ item }) => (
+                  <View style={styles.categoryCard}>
+                    <Image source={item.icon} style={styles.categoryIcon} />
+                    <Text style={styles.categoryText}>{item.name}</Text>
+                  </View>
+                )}
               />
-              <View style={styles.articleTextContainer}>
-                <Text style={styles.articleTitle}>{article.title}</Text>
-                <Text style={styles.articleSubtitle}>{article.description}</Text>
-              </View>
             </View>
-          ))}
-        </View> */}
-      </ScrollView>
+          </>
+        }
+        ListFooterComponent={
+          <>
+            <MostRead />
+            <LatestNews />
+          </>
+        }
+
+        contentContainerStyle={{ paddingBottom: 70 }}
+      />
 
       <Footer />
     </View>
@@ -168,23 +126,16 @@ const styles = StyleSheet.create({
   },
 
   // =================================================================== Header ===================================================================
-  contentContainer: {
-    flex: 1,
-    marginBottom: 60,
-  },
-
   headerItemContainer: {
     width: Dimensions.get('window').width,
     borderBottomColor: '#767E94',
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
     fontFamily: 'Nunito-Regular'
   },
-
   headerImage: {
     width: '100%',
     height: 200,
   },
-
   headerTitle: {
     fontSize: 18,
     marginVertical: 8,
@@ -193,7 +144,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20, 
     paddingRight: 20,
   },
-
   headerSubtitle: {
     fontSize: 14,
     color: '#767E94',
@@ -201,45 +151,28 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     paddingBottom: 20,
   },
-
   carouselContainer: {
     marginBottom: 20,
   },
-  // indicatorContainer: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'center',
-  //   marginTop: 8,
-  // },
-  // indicator: {
-  //   width: 8,
-  //   height: 8,
-  //   borderRadius: 4,
-  //   backgroundColor: '#007bff',
-  //   marginHorizontal: 4,
-  // },
 
   // =================================================================== Category ===================================================================
   topCategorySection: {
     padding: 16,
   },
-
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-
   sectionTitle: {
     fontSize: 16,
-    fontFamily: 'Nunito-Bold'
+    fontFamily: 'Nunito-SemiBold'
   },
-
   viewAllText: {
-    color: '#007bff',
+    color: '#0864ED',
     marginTop: 4,
-    fontFamily: 'Nunito-Regular'
+    fontFamily: 'Nunito-SemiBold'
   },
-
   categoryCard: {
     backgroundColor: '#f0f0f0',
     marginTop: 16,
@@ -251,58 +184,15 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start', 
   },
-  
   categoryIcon: {
     width: 24,
     height: 24,
   },
-
   categoryText: {
     fontSize: 14,
     marginTop: 12,
-    fontFamily: 'Nunito-Regular'
-  },
-  
-
-  // Artikel 
-  mostReadSection: {
-    padding: 16,
-  },
-  articleCard: {
-    flexDirection: 'row',
-    marginVertical: 8,
-  },
-  articleImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 8,
-  },
-  articleTextContainer: {
-    marginLeft: 8,
-    flex: 1,
-  },
-  articleTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  articleSubtitle: {
-    fontSize: 12,
-    color: '#666',
-  },
-  loadMoreButton: {
-    marginTop: 16,
-    alignSelf: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    backgroundColor: '#007bff',
-    borderRadius: 8,
-  },
-  loadMoreText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  latestNewsSection: {
-    padding: 16,
+    fontFamily: 'Nunito-Regular',
+    color: '#191F33'
   },
 });
 
