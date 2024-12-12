@@ -10,6 +10,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Footer from './source/footer';
 import Home from './source/home'; 
+import Category from './source/category';
 import Profile from './source/profile'; 
 
 const Stack = createNativeStackNavigator();
