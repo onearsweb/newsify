@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ScrollView, Image, StyleSheet, Dimensions, Animated, FlatList, TouchableOpacity  } from 'react-native';
 import Footer from './footer';
+import MostRead from './homeComponent/mostread';
 
 const Home = () => {
   const [latestNews, setLatestNews] = useState([]);
@@ -11,11 +12,11 @@ const Home = () => {
   useEffect(() => {
     const fetchNewsData = async () => {
       const apiUrls = [
-        "https://newsapi.org/v2/everything?q=apple&from=2024-12-10&to=2024-12-10&sortBy=popularity&apiKey=0c8cdda648d74f5aac01aadf55c159be",
-        "https://newsapi.org/v2/everything?q=tesla&from=2024-11-11&sortBy=publishedAt&apiKey=0c8cdda648d74f5aac01aadf55c159be",
-        "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=0c8cdda648d74f5aac01aadf55c159be",
-        "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=0c8cdda648d74f5aac01aadf55c159be",
-        "https://newsapi.org/v2/everything?domains=wsj.com&apiKey=0c8cdda648d74f5aac01aadf55c159be"
+        // "https://newsapi.org/v2/everything?q=apple&from=2024-12-10&to=2024-12-10&sortBy=popularity&apiKey=0c8cdda648d74f5aac01aadf55c159be",
+        // "https://newsapi.org/v2/everything?q=tesla&from=2024-11-11&sortBy=publishedAt&apiKey=0c8cdda648d74f5aac01aadf55c159be",
+        // "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=0c8cdda648d74f5aac01aadf55c159be",
+        // "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=0c8cdda648d74f5aac01aadf55c159be",
+        // "https://newsapi.org/v2/everything?domains=wsj.com&apiKey=0c8cdda648d74f5aac01aadf55c159be"
       ];
 
       try {
@@ -41,11 +42,11 @@ const Home = () => {
   const renderHeaderItem = ({ item }) => (
     <View style={styles.headerItemContainer}>
       <Image 
-        // source={{ uri: item.urlToImage || 'https://via.placeholder.com/150' }} 
+        source={{ uri: item.urlToImage || 'https://via.placeholder.com/150' }} 
         style={styles.headerImage} 
       />
-      {/* <Text style={styles.headerTitle} numberOfLines={1}>{item.title}</Text>
-      <Text style={styles.headerSubtitle} numberOfLines={3}>{item.description}</Text> */}
+      <Text style={styles.headerTitle} numberOfLines={1}>{item.title}</Text>
+      <Text style={styles.headerSubtitle} numberOfLines={3}>{item.description}</Text>
     </View>
   );
 
@@ -120,12 +121,13 @@ const Home = () => {
           {mostRead.map((article, index) => (
             <View key={index} style={styles.articleCard}>
               <Image 
-                source={{ uri: article.urlToImage }} 
+                // source={{ uri: item.urlToImage || 'https://via.placeholder.com/150' }} 
+                source={{uri : 'https://via.placeholder.com/150' }} 
                 style={styles.articleImage} 
               />
               <View style={styles.articleTextContainer}>
-                <Text style={styles.articleTitle}>{article.title}</Text>
-                <Text style={styles.articleSubtitle}>{article.description}</Text>
+                <Text style={styles.articleTitle}>Lorem Ipsum</Text>
+                <Text style={styles.articleSubtitle}>Lorem Ipsum, Lorem Ipsum, Lorem Ipsum, </Text>
               </View>
             </View>
           ))}
@@ -133,6 +135,8 @@ const Home = () => {
             <Text style={styles.loadMoreText}>LOAD MORE</Text>
           </TouchableOpacity>
         </View> */}
+
+        <MostRead />
 
         {/* Latest News Section */}
         {/* <View style={styles.latestNewsSection}>
@@ -185,8 +189,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginVertical: 8,
     color: '#191F33',
+    paddingTop: 20,
     paddingLeft: 20, 
-    paddingRight: 20
+    paddingRight: 20,
   },
 
   headerSubtitle: {
