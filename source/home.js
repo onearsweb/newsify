@@ -8,40 +8,40 @@ const Home = () => {
   const [latestNews, setLatestNews] = useState([]);
   const [mostRead, setMostRead] = useState([]);
   const [headerNews, setHeaderNews] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('all'); // State for selected category
   const scrollX = useRef(new Animated.Value(0)).current;
 
+  // Function to fetch news data based on selected category
+  const fetchNewsData = async (category) => {
+    const apiUrl = `https://newsapi.org/v2/everything?q=${category}&pageSize=15&apiKey=0c8cdda648d74f5aac01aadf55c159be`;
+
+    try {
+      const response = await fetch(apiUrl);
+      const result = await response.json();
+  
+      // Validasi dan filter data
+      const allArticles = result.articles.filter(article => 
+        article.title && article.description && article.urlToImage
+      );
+  
+      // Data untuk Header
+      const sortedByDate = [...allArticles].sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+      setHeaderNews(sortedByDate.slice(0, 5)); // Artikel terbaru untuk header
+  
+      // Data untuk Most Read
+      const sortedByPopularity = [...allArticles].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+      setMostRead(sortedByPopularity.slice(0, 7)); // Artikel terpopuler untuk Most Read
+  
+      // Data untuk Latest News
+      setLatestNews(sortedByDate); // Semua artikel diurutkan berdasarkan tanggal
+    } catch (error) {
+      console.error('Failed to fetch news data:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchNewsData = async () => {
-      const apiUrl = "https://newsapi.org/v2/everything?q=all&pageSize=15&apiKey=0c8cdda648d74f5aac01aadf55c159be";
-
-      try {
-        const response = await fetch(apiUrl);
-        const result = await response.json();
-    
-        // Validasi dan filter data
-        const allArticles = result.articles.filter(article => 
-          article.title && article.description && article.urlToImage
-        );
-    
-        // Data untuk Header
-        const sortedByDate = [...allArticles].sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
-        setHeaderNews(sortedByDate.slice(0, 5)); // Artikel terbaru untuk header
-    
-        // Data untuk Most Read
-        const sortedByPopularity = [...allArticles].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
-        setMostRead(sortedByPopularity.slice(0, 5)); // Artikel terpopuler untuk Most Read
-    
-        // Data untuk Latest News
-        setLatestNews(sortedByDate); // Semua artikel diurutkan berdasarkan tanggal
-      } catch (error) {
-        console.error('Failed to fetch news data:', error);
-      }
-    };
-
-    fetchNewsData();
-  }, []);
-
-
+    fetchNewsData(selectedCategory); // Fetch news based on selected category
+  }, [selectedCategory]); // Re-fetch data whenever selected category changes
 
   const renderHeaderItem = ({ item }) => (
     <View style={styles.headerItemContainer}>
@@ -80,7 +80,6 @@ const Home = () => {
               </View>
             )}
 
-
             {/* Top Category Section */}
             <View style={styles.topCategorySection}>
               <View style={styles.sectionHeader}>
@@ -92,17 +91,19 @@ const Home = () => {
               <FlatList
                 data={[
                   { id: '1', name: 'All', icon: require('../source/assets/img/category/all.png') },
-                  { id: '2', name: 'Apple', icon: require('../source/assets/img/category/apple.png') },
-                  { id: '3', name: 'Tesla', icon: require('../source/assets/img/category/tesla.png') },
+                  { id: '2', name: 'Technology', icon: require('../source/assets/img/category/apple.png') },
+                  { id: '3', name: 'Sport', icon: require('../source/assets/img/category/tesla.png') },
                 ]}
                 horizontal
                 keyExtractor={(item) => item.id}
                 showsHorizontalScrollIndicator={false}
                 renderItem={({ item }) => (
-                  <View style={styles.categoryCard}>
-                    <Image source={item.icon} style={styles.categoryIcon} />
-                    <Text style={styles.categoryText}>{item.name}</Text>
-                  </View>
+                  <TouchableOpacity onPress={() => setSelectedCategory(item.name.toLowerCase())}>
+                    <View style={styles.categoryCard}>
+                      <Image source={item.icon} style={styles.categoryIcon} />
+                      <Text style={styles.categoryText}>{item.name}</Text>
+                    </View>
+                  </TouchableOpacity>
                 )}
               />
             </View>
@@ -167,6 +168,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 20
   },
   sectionTitle: {
     fontSize: 16,
@@ -180,7 +182,6 @@ const styles = StyleSheet.create({
   },
   categoryCard: {
     backgroundColor: '#f0f0f0',
-    marginTop: 16,
     width: 179, 
     height: 92, 
     padding: 16,
