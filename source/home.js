@@ -91,8 +91,8 @@ const Home = () => {
               <FlatList
                 data={[
                   { id: '1', name: 'All', icon: require('../source/assets/img/category/all.png') },
-                  { id: '2', name: 'Technology', icon: require('../source/assets/img/category/apple.png') },
-                  { id: '3', name: 'Sport', icon: require('../source/assets/img/category/tesla.png') },
+                  { id: '2', name: 'Sports', icon: require('../source/assets/img/category/sports.png') },
+                  { id: '3', name: 'Business', icon: require('../source/assets/img/category/business.png') },
                 ]}
                 horizontal
                 keyExtractor={(item) => item.id}
