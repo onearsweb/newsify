@@ -12,26 +12,27 @@ const Home = () => {
 
   useEffect(() => {
     const fetchNewsData = async () => {
-      const apiUrls = [
-        // "https://newsapi.org/v2/everything?q=apple&from=2024-12-10&to=2024-12-10&sortBy=popularity&apiKey=0c8cdda648d74f5aac01aadf55c159be",
-        // "https://newsapi.org/v2/everything?q=tesla&from=2024-11-11&sortBy=publishedAt&apiKey=0c8cdda648d74f5aac01aadf55c159be",
-        // "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=0c8cdda648d74f5aac01aadf55c159be",
-        // "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=0c8cdda648d74f5aac01aadf55c159be",
-        // "https://newsapi.org/v2/everything?domains=wsj.com&apiKey=0c8cdda648d74f5aac01aadf55c159be"
-      ];
+      const apiUrl = "https://newsapi.org/v2/everything?q=all&pageSize=15&apiKey=0c8cdda648d74f5aac01aadf55c159be";
 
       try {
-        const responses = await Promise.all(apiUrls.map(url => fetch(url)));
-        const results = await Promise.all(responses.map(res => res.json()));
-
-        const allArticles = results.flatMap(result => result.articles);
-
+        const response = await fetch(apiUrl);
+        const result = await response.json();
+    
+        // Validasi dan filter data
+        const allArticles = result.articles.filter(article => 
+          article.title && article.description && article.urlToImage
+        );
+    
+        // Data untuk Header
         const sortedByDate = [...allArticles].sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
-        setLatestNews(sortedByDate.slice(0, 5));
-        setHeaderNews(sortedByDate.slice(0, 5));
-
+        setHeaderNews(sortedByDate.slice(0, 5)); // Artikel terbaru untuk header
+    
+        // Data untuk Most Read
         const sortedByPopularity = [...allArticles].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
-        setMostRead(sortedByPopularity.slice(0, 5));
+        setMostRead(sortedByPopularity.slice(0, 5)); // Artikel terpopuler untuk Most Read
+    
+        // Data untuk Latest News
+        setLatestNews(sortedByDate); // Semua artikel diurutkan berdasarkan tanggal
       } catch (error) {
         console.error('Failed to fetch news data:', error);
       }
@@ -40,14 +41,16 @@ const Home = () => {
     fetchNewsData();
   }, []);
 
+
+
   const renderHeaderItem = ({ item }) => (
     <View style={styles.headerItemContainer}>
       <Image 
         source={{ uri: item.urlToImage || 'https://via.placeholder.com/150' }} 
         style={styles.headerImage} 
       />
-      <Text style={styles.headerTitle} numberOfLines={1}>{item.title}</Text>
-      <Text style={styles.headerSubtitle} numberOfLines={3}>{item.description}</Text>
+      <Text style={styles.headerTitle}>{item.title.split(' ').slice(0, 10).join(' ')}</Text>
+      <Text style={styles.headerSubtitle}>{item.description.split(' ').slice(0, 20).join(' ')}</Text>
     </View>
   );
 
@@ -76,6 +79,7 @@ const Home = () => {
                 />
               </View>
             )}
+
 
             {/* Top Category Section */}
             <View style={styles.topCategorySection}>
@@ -106,8 +110,8 @@ const Home = () => {
         }
         ListFooterComponent={
           <>
-            <MostRead />
-            <LatestNews />
+            <MostRead articles={mostRead} />
+            <LatestNews articles={latestNews}/>
           </>
         }
 
@@ -166,6 +170,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 16,
+    color: '#191F33',
     fontFamily: 'Nunito-SemiBold'
   },
   viewAllText: {

@@ -1,81 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-const MostRead = () => {
-  const [articles, setArticles] = useState([
-    {
-        id: '1',
-        title: 'Proin vitae suscipit nisi coba aj sebelum kehabisan',
-        subtitle: 'Mauris odio nisi, posuere ac viverra eu, molestie sed sapien. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Proin vitae suscipit nisi, sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Mauris odio nisi, posuere ac viverra eu, molestie sed sapien.',
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: '2',
-        title: 'Cras tempor rutrum sem a a a a a a a a a a a a 1 1 1 1',
-        subtitle: 'Sit amet congue, malesuada fames ac turpis egestas. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Cras tempor rutrum sem, sit amet congue, malesuada fames ac turpis egestas. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: '3',
-        title: 'Aenean et enim quis nulla',
-        subtitle: 'Interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Aenean et enim quis nulla, interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: '4',
-        title: 'Proin vitae suscipit nisi',
-        subtitle: 'Mauris odio nisi, posuere ac viverra eu, molestie sed sapien. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Proin vitae suscipit nisi, sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Mauris odio nisi, posuere ac viverra eu, molestie sed sapien.',
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: '5',
-        title: 'Cras tempor rutrum sem',
-        subtitle: 'Sit amet congue, malesuada fames ac turpis egestas. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Cras tempor rutrum sem, sit amet congue, malesuada fames ac turpis egestas. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: '6',
-        title: 'Aenean et enim quis nulla',
-        subtitle: 'Interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Aenean et enim quis nulla, interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: '7',
-        title: 'Aenean et enim quis nulla 1',
-        subtitle: 'Interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Aenean et enim quis nulla, interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: '8',
-        title: 'Aenean et enim quis nulla 2 ',
-        subtitle: 'Interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Aenean et enim quis nulla, interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: '9',
-        title: 'Aenean et enim quis nulla 3',
-        subtitle: 'Interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex. Aenean et enim quis nulla, interdum posuere class aptent taciti sociosqu ad. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
-        image: 'https://via.placeholder.com/150',
-      },
-  ]);
-
+const MostRead = ({ articles }) => {
   const [displayedArticles, setDisplayedArticles] = useState(articles.slice(0, 4));
 
+  useEffect(() => {
+    setDisplayedArticles(articles.slice(0, 4)); // Reset saat prop berubah
+  }, [articles]);
+
   const loadMoreArticles = () => {
-    const newArticles = articles.slice(displayedArticles.length, Math.min(displayedArticles.length + 4, articles.length));
+    const newArticles = articles.slice(
+      displayedArticles.length,
+      Math.min(displayedArticles.length + 4, articles.length)
+    );
     setDisplayedArticles([...displayedArticles, ...newArticles]);
   };
 
   const renderArticle = ({ item, index }) => {
     const isFirstItem = index === 0;
-    const title = isFirstItem ? item.title.split(' ').slice(0, 15).join(' ') : item.title.split(' ').slice(0, 10).join(' ');
-    const subtitle = isFirstItem ? item.subtitle.split(' ').slice(0, 20).join(' ') : item.subtitle.split(' ').slice(0, 6).join(' ');
-  
+    const title = isFirstItem
+      ? item.title.split(' ').slice(0, 15).join(' ')
+      : item.title.split(' ').slice(0, 10).join(' ');
+    const subtitle = isFirstItem
+      ? (item.description || '').split(' ').slice(0, 30).join(' ')
+      : (item.description || '').split(' ').slice(0, 7).join(' ');
+
     return (
       <View style={[isFirstItem ? styles.firstArticleCard : styles.articleCard]}>
         {isFirstItem ? (
           <View>
-            <Image source={{ uri: item.image }} style={styles.firstArticleImage} />
+            <Image source={{ uri: item.urlToImage || 'https://via.placeholder.com/150' }} style={styles.firstArticleImage} />
             <View style={styles.firstArticleTextContainer}>
               <Text style={styles.firstArticleTitle}>{title}</Text>
               <Text style={styles.firstArticleSubtitle}>{subtitle}</Text>
@@ -88,7 +42,7 @@ const MostRead = () => {
           </View>
         )}
         {!isFirstItem && (
-          <Image source={{ uri: item.image }} style={styles.articleImage} />
+          <Image source={{ uri: item.urlToImage || 'https://via.placeholder.com/150' }} style={styles.articleImage} />
         )}
       </View>
     );
@@ -96,11 +50,11 @@ const MostRead = () => {
 
   return (
     <View style={styles.mostReadSection}>
-      <Text style={styles.sectionTitle}>Most Read</Text>
+      <Text style={styles.sectionTitle}>MOST READ</Text>
       <FlatList
         data={displayedArticles}
         renderItem={renderArticle}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => index.toString()}
       />
       {displayedArticles.length < articles.length && (
         <TouchableOpacity style={styles.loadMoreButton} onPress={loadMoreArticles}>
@@ -110,6 +64,7 @@ const MostRead = () => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
     mostReadSection: {

@@ -1,76 +1,72 @@
 import React, { useState } from 'react';
-import { View, Text, Image, FlatList, StyleSheet } from 'react-native';
+import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 
-const truncate = (text, length) => {
-  if (text.length > length) {
-    return text.substring(0, length) + '...';
-  }
-  return text;
-};
-
-const LatestNews = () => {
-  const [articles, setArticles] = useState([
-    {
-      title: "Pemerintah Luncurkan Program Baru untuk Meningkatkan Ekonomi",
-      description: "Pemerintah hari ini meluncurkan program baru untuk meningkatkan ekonomi negara. Program ini bertujuan untuk meningkatkan pendapatan masyarakat dan mengurangi kemiskinan.",
-      urlToImage: "https://picsum.photos/200/300",
-    },
-    {
-      title: "Kerusuhan di Jakarta, 10 Orang Terluka",
-      description: "Kerusuhan terjadi di Jakarta hari ini, menyebabkan 10 orang terluka. Polisi sedang melakukan penyelidikan untuk mengetahui penyebab kerusuhan tersebut.",
-      urlToImage: "https://picsum.photos/200/301",
-    },
-    {
-      title: "Penemuan Baru di Bidang Kedokteran, Obat Kanker Ditemukan",
-      description: "Para ilmuwan hari ini mengumumkan penemuan baru di bidang kedokteran, yaitu obat kanker yang efektif. Obat ini diharapkan dapat membantu meningkatkan harapan hidup penderita kanker.",
-      urlToImage: "https://picsum.photos/200/302",
-    },
-    {
-      title: "Gempa Bumi Melanda Jawa Barat, 5 Orang Meninggal",
-      description: "Gempa bumi berkekuatan 6,5 SR melanda Jawa Barat hari ini, menyebabkan 5 orang meninggal. Bantuan darurat sedang diberikan kepada korban gempa.",
-      urlToImage: "https://picsum.photos/200/303",
-    },
-    {
-      title: "Pertandingan Sepak Bola Antar Negara, Indonesia Kalah 2-1",
-      description: "Pertandingan sepak bola antar negara antara Indonesia dan Malaysia berakhir dengan kekalahan Indonesia 2-1. Timnas Indonesia akan berusaha untuk membalas kekalahan tersebut di pertandingan berikutnya.",
-      urlToImage: "https://picsum.photos/200/304",
-    },
-    {
-      title: "Penghargaan Nobel Fisika Diberikan kepada Ilmuwan Indonesia",
-      description: "Penghargaan Nobel Fisika tahun ini diberikan kepada ilmuwan Indonesia, Prof. Dr. XYZ. Penghargaan ini diberikan atas kontribusi beliau dalam bidang fisika.",
-      urlToImage: "https://picsum.photos/200/305",
-    },
-  ]);
+const LatestNews = ({ articles }) => {
+  // Batasi hanya 6 artikel
+  const limitedArticles = articles.slice(0, 6);
 
   return (
     <View style={styles.latestNewsSection}>
-      <Text style={styles.sectionTitle}>Latest News</Text>
-      <FlatList
-        data={articles}
-        renderItem={({ item }) => (
-          <View style={styles.articleCard}>
-            <Image source={{ uri: item.urlToImage }} style={styles.articleImage} />
-            <View style={styles.articleTextContainer}>
-              <Text style={styles.articleTitle}>{item.title.split(' ').slice(0, 10).join(' ')}</Text>
-              <Text style={styles.articleSubtitle}>{item.description.split(' ').slice(0, 7).join(' ')}</Text>
-            </View>
-          </View>
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionTitle}>LATEST NEWS</Text>
+        <TouchableOpacity>
+          <Text style={styles.viewAllText}>View all ➜</Text>
+        </TouchableOpacity>
+      </View>
+
+      {limitedArticles.length === 0 ? (
+        <Text style={styles.emptyMessage}>No latest news available.</Text>
+      ) : (
+        <FlatList
+          data={limitedArticles} // Gunakan limitedArticles untuk membatasi jumlah artikel
+          renderItem={({ item }) => {
+            const title = item.title.split(' ').slice(0, 10).join(' ');
+            const description = (item.description || '').split(' ').slice(0, 7).join(' ');
+
+            return (
+              <View style={styles.articleCard}>
+                <Image
+                  source={{ uri: item.urlToImage || 'https://via.placeholder.com/150' }}
+                  style={styles.articleImage}
+                />
+                <View style={styles.articleTextContainer}>
+                  <Text style={styles.articleTitle} numberOfLines={2}>
+                    {title || 'No title available'}
+                  </Text>
+                  <Text style={styles.articleSubtitle} numberOfLines={3}>
+                    {description || 'No description available'}
+                  </Text>
+                </View>
+              </View>
+            );
+          }}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      )}
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   latestNewsSection: {
     padding: 16,
   },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20
+  },
   sectionTitle: {
-    fontFamily: 'Nunito-SemiBold',
     fontSize: 16,
     color: '#191F33',
-    marginBottom: 20
+    fontFamily: 'Nunito-SemiBold'
+  },
+  viewAllText: {
+    color: '#0864ED',
+    marginTop: 4,
+    fontFamily: 'Nunito-SemiBold'
   },
   articleCard: {
     flexDirection: 'row-reverse',
