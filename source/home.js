@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ScrollView, Image, StyleSheet, Dimensions, Animated, FlatList, TouchableOpacity  } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Footer from './footer';
 import MostRead from './homeComponent/mostread';
 import LatestNews from './homeComponent/latestnews';
+import Search from './homeComponent/search';
 
 const Home = () => {
+  const navigation = useNavigation();
   const [latestNews, setLatestNews] = useState([]);
   const [mostRead, setMostRead] = useState([]);
   const [headerNews, setHeaderNews] = useState([]);
@@ -44,14 +47,14 @@ const Home = () => {
   }, [selectedCategory]); // Re-fetch data whenever selected category changes
 
   const renderHeaderItem = ({ item }) => (
-    <View style={styles.headerItemContainer}>
+    <TouchableOpacity onPress={() => navigation.navigate('ArticleDetail', { article: item })} style={styles.headerItemContainer}>
       <Image 
         source={{ uri: item.urlToImage || 'https://via.placeholder.com/150' }} 
         style={styles.headerImage} 
       />
       <Text style={styles.headerTitle}>{item.title.split(' ').slice(0, 10).join(' ')}</Text>
       <Text style={styles.headerSubtitle}>{item.description.split(' ').slice(0, 20).join(' ')}</Text>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -62,6 +65,9 @@ const Home = () => {
         keyExtractor={(item, index) => index.toString()}
         ListHeaderComponent={
           <>
+          {/* Search */}
+          <Search />
+
             {/* Header Section */}
             {headerNews.length > 0 && (
               <View style={styles.carouselContainer}>

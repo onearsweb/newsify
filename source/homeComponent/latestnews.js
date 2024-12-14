@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const LatestNews = ({ articles }) => {
+  const navigation = useNavigation();
+
   // Batasi hanya 6 artikel
   const limitedArticles = articles.slice(0, 6);
 
@@ -9,7 +12,7 @@ const LatestNews = ({ articles }) => {
     <View style={styles.latestNewsSection}>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>LATEST NEWS</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('AllNews', { articles })}>
           <Text style={styles.viewAllText}>View all ➜</Text>
         </TouchableOpacity>
       </View>
@@ -24,7 +27,7 @@ const LatestNews = ({ articles }) => {
             const description = (item.description || '').split(' ').slice(0, 7).join(' ');
 
             return (
-              <View style={styles.articleCard}>
+              <TouchableOpacity onPress={() => navigation.navigate('ArticleDetail', { article: item })} style={styles.articleCard}>
                 <Image
                   source={{ uri: item.urlToImage || 'https://via.placeholder.com/150' }}
                   style={styles.articleImage}
@@ -37,7 +40,7 @@ const LatestNews = ({ articles }) => {
                     {description || 'No description available'}
                   </Text>
                 </View>
-              </View>
+              </TouchableOpacity>
             );
           }}
           keyExtractor={(item, index) => index.toString()}

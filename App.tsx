@@ -12,6 +12,9 @@ import Footer from './source/footer';
 import Home from './source/home'; 
 import Category from './source/category';
 import Profile from './source/profile'; 
+import AllNews from './source/newscoba';  
+import ArticleDetail from './source/detailcoba';  
+
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +24,8 @@ const App = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="AllNews" component={AllNews} />
+        <Stack.Screen name="ArticleDetail" component={ArticleDetail} />
       </Stack.Navigator>
     </NavigationContainer>
   );

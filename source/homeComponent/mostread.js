@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const MostRead = ({ articles }) => {
+  const navigation = useNavigation();
+  
   const [displayedArticles, setDisplayedArticles] = useState(articles.slice(0, 4));
 
   useEffect(() => {
@@ -26,7 +29,7 @@ const MostRead = ({ articles }) => {
       : (item.description || '').split(' ').slice(0, 7).join(' ');
 
     return (
-      <View style={[isFirstItem ? styles.firstArticleCard : styles.articleCard]}>
+      <TouchableOpacity style={[isFirstItem ? styles.firstArticleCard : styles.articleCard]}  onPress={() => navigation.navigate('ArticleDetail', { article: item })}>
         {isFirstItem ? (
           <View>
             <Image source={{ uri: item.urlToImage || 'https://via.placeholder.com/150' }} style={styles.firstArticleImage} />
@@ -44,7 +47,7 @@ const MostRead = ({ articles }) => {
         {!isFirstItem && (
           <Image source={{ uri: item.urlToImage || 'https://via.placeholder.com/150' }} style={styles.articleImage} />
         )}
-      </View>
+      </TouchableOpacity>
     );
   };
 
