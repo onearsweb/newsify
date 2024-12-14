@@ -14,6 +14,7 @@ import Category from './source/category';
 import Profile from './source/profile'; 
 import AllNews from './source/newscoba';  
 import ArticleDetail from './source/detailcoba';  
+import SearchPage from './source/homeComponent/searchpage';  
 
 
 const Stack = createNativeStackNavigator();
@@ -26,6 +27,7 @@ const App = () => {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="AllNews" component={AllNews} />
         <Stack.Screen name="ArticleDetail" component={ArticleDetail} />
+        <Stack.Screen name="SearchPage" component={SearchPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

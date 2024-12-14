@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import {View, Text, Image, StyleSheet, ScrollView} from 'react-native';
 
-const ArticleDetail = ({ route }) => {
-  const { article } = route.params; // Mengambil data artikel yang diteruskan
+const ArticleDetail = ({route}) => {
+  const {article} = route.params; // Mengambil data artikel yang diteruskan
 
   if (!article) {
     return (
@@ -14,7 +14,7 @@ const ArticleDetail = ({ route }) => {
 
   return (
     <ScrollView style={styles.container}>
-      <Image source={{ uri: article.urlToImage }} style={styles.articleImage} />
+      <Image source={{uri: article.urlToImage}} style={styles.articleImage} />
       <View style={styles.content}>
         <Text style={styles.title}>{article.title}</Text>
         <Text style={styles.description}>{article.description}</Text>

@@ -1,22 +1,32 @@
 import React from 'react';
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
-const AllNews = ({ route }) => {
-    const navigation = useNavigation();
-  const { articles } = route.params; // Terima data artikel dari navigasi
+const AllNews = ({route}) => {
+  const navigation = useNavigation();
+  const {articles} = route.params; // Terima data artikel dari navigasi
 
-  const renderArticle = ({ item }) => (
+  const renderArticle = ({item}) => (
     <TouchableOpacity
-    onPress={() => navigation.navigate('ArticleDetail', { article: item })} // Navigasi ke halaman detail
-    style={styles.articleCard}
-  >
-      <Image source={{ uri: item.urlToImage }} style={styles.articleImage} />
+      onPress={() => navigation.navigate('ArticleDetail', {article: item})} // Navigasi ke halaman detail
+      style={styles.articleCard}>
+      <Image source={{uri: item.urlToImage}} style={styles.articleImage} />
       <View style={styles.articleContent}>
-        <Text style={styles.articleTitle} numberOfLines={1}>{item.title}</Text>
-        <Text style={styles.articleDescription} numberOfLines={2}>{item.description}</Text>
+        <Text style={styles.articleTitle} numberOfLines={1}>
+          {item.title}
+        </Text>
+        <Text style={styles.articleDescription} numberOfLines={2}>
+          {item.description}
+        </Text>
       </View>
-      </TouchableOpacity>
+    </TouchableOpacity>
   );
 
   return (
