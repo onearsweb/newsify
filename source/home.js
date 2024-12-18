@@ -141,9 +141,10 @@ const Home = () => {
               <View style={styles.topCategorySection}>
                 <View style={styles.sectionHeader}>
                   <Text style={styles.sectionTitle}>TOP CATEGORY</Text>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => navigation.navigate('Category')}>
                     <Text style={styles.viewAllText}>View all ➜</Text>
                   </TouchableOpacity>
+
                 </View>
                 <FlatList
                   data={[

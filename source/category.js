@@ -1,65 +1,38 @@
-import React, { useCallback, memo } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-const Category = () => {
-  const navigation = useNavigation();
+const categories = [
+  { id: '1', name: 'All', icon: require('../source/assets/img/category/all.png') },
+  { id: '2', name: 'Sports', icon: require('../source/assets/img/category/sports.png') },
+  { id: '3', name: 'Business', icon: require('../source/assets/img/category/business.png') },
+  { id: '4', name: 'Technology', icon: require('../source/assets/img/category/technology.png') },
+  { id: '5', name: 'Entertainment', icon: require('../source/assets/img/category/entertainment.png') },
+  { id: '6', name: 'Health', icon: require('../source/assets/img/category/health.png') },
+  { id: '7', name: 'Science', icon: require('../source/assets/img/category/science.png') },
+  { id: '8', name: 'General', icon: require('../source/assets/img/category/general.png') },
+];
 
-  // Daftar kategori beserta icon
-  const categories = [
-    { id: '1', name: 'All', icon: require('../source/assets/img/category/all.png') },
-    { id: '2', name: 'Sports', icon: require('../source/assets/img/category/sports.png') },
-    { id: '3', name: 'Business', icon: require('../source/assets/img/category/business.png') },
-    { id: '4', name: 'Technology', icon: require('../source/assets/img/category/technology.png') },
-    { id: '5', name: 'Entertainment', icon: require('../source/assets/img/category/entertainment.png') },
-    { id: '6', name: 'Health', icon: require('../source/assets/img/category/health.png') },
-    { id: '7', name: 'Science', icon: require('../source/assets/img/category/science.png') },
-    { id: '8', name: 'General', icon: require('../source/assets/img/category/general.png') },
-  ];
-
-  // Optimasi rendering item menggunakan memo
-  const renderCategoryItem = useCallback(
-    ({ item }) => (
-      <TouchableOpacity
-        style={styles.categoryCard}
-        onPress={() => navigation.navigate('AllNews', { category: item.name.toLowerCase() })}
-      >
-        <Image source={item.icon} style={styles.categoryIcon} />
-        <Text style={styles.categoryText}>{item.name}</Text>
-      </TouchableOpacity>
-    ),
-    [navigation]
-  );
-
+const Category = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.headerTitle}>All Category</Text>
+      <Text style={styles.title}>All Category</Text>
       <FlatList
         data={categories}
+        keyExtractor={item => item.id}
         numColumns={2}
-        keyExtractor={(item) => item.id}
-        renderItem={renderCategoryItem}
-        getItemLayout={(data, index) => ({
-          length: 150, // Tinggi setiap item
-          offset: 150 * index,
-          index,
-        })}
-        initialNumToRender={6} // Jumlah item yang dirender pertama kali
-        onScrollToIndexFailed={(info) => {
-          console.warn('Scroll to index failed: ', info);
-        }}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => navigation.navigate('Home', { selectedCategory: item.name.toLowerCase() })}
+          >
+            <Image source={item.icon} style={styles.icon} />
+            <Text style={styles.cardText}>{item.name}</Text>
+          </TouchableOpacity>
+        )}
       />
     </View>
   );
 };
-
-// Komponen memoized untuk item FlatList
-const MemoizedCategoryItem = memo(({ item, onPress }) => (
-  <TouchableOpacity style={styles.categoryCard} onPress={onPress}>
-    <Image source={item.icon} style={styles.categoryIcon} />
-    <Text style={styles.categoryText}>{item.name}</Text>
-  </TouchableOpacity>
-));
 
 const styles = StyleSheet.create({
   container: {
@@ -67,30 +40,31 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 16,
   },
-  headerTitle: {
+  title: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 16,
     textAlign: 'center',
+    color: '#191F33',
   },
-  categoryCard: {
-    backgroundColor: '#f0f8ff',
+  card: {
     flex: 1,
     margin: 8,
+    backgroundColor: '#f9f9f9',
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  categoryIcon: {
-    width: 50,
-    height: 50,
+  icon: {
+    width: 40,
+    height: 40,
     marginBottom: 8,
   },
-  categoryText: {
-    fontSize: 16,
-    color: '#333',
-    fontWeight: '500',
+  cardText: {
+    fontSize: 14,
+    color: '#191F33',
+    textAlign: 'center',
   },
 });
 
