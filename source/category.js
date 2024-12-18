@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, memo } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -17,6 +17,20 @@ const Category = () => {
     { id: '8', name: 'General', icon: require('../source/assets/img/category/general.png') },
   ];
 
+  // Optimasi rendering item menggunakan memo
+  const renderCategoryItem = useCallback(
+    ({ item }) => (
+      <TouchableOpacity
+        style={styles.categoryCard}
+        onPress={() => navigation.navigate('AllNews', { category: item.name.toLowerCase() })}
+      >
+        <Image source={item.icon} style={styles.categoryIcon} />
+        <Text style={styles.categoryText}>{item.name}</Text>
+      </TouchableOpacity>
+    ),
+    [navigation]
+  );
+
   return (
     <View style={styles.container}>
       <Text style={styles.headerTitle}>All Category</Text>
@@ -24,19 +38,28 @@ const Category = () => {
         data={categories}
         numColumns={2}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.categoryCard}
-            onPress={() => navigation.navigate('AllNews', { category: item.name.toLowerCase() })}
-          >
-            <Image source={item.icon} style={styles.categoryIcon} />
-            <Text style={styles.categoryText}>{item.name}</Text>
-          </TouchableOpacity>
-        )}
+        renderItem={renderCategoryItem}
+        getItemLayout={(data, index) => ({
+          length: 150, // Tinggi setiap item
+          offset: 150 * index,
+          index,
+        })}
+        initialNumToRender={6} // Jumlah item yang dirender pertama kali
+        onScrollToIndexFailed={(info) => {
+          console.warn('Scroll to index failed: ', info);
+        }}
       />
     </View>
   );
 };
+
+// Komponen memoized untuk item FlatList
+const MemoizedCategoryItem = memo(({ item, onPress }) => (
+  <TouchableOpacity style={styles.categoryCard} onPress={onPress}>
+    <Image source={item.icon} style={styles.categoryIcon} />
+    <Text style={styles.categoryText}>{item.name}</Text>
+  </TouchableOpacity>
+));
 
 const styles = StyleSheet.create({
   container: {
