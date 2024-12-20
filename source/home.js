@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import Footer from './footer';
 import MostRead from './homeComponent/mostread';
 import LatestNews from './homeComponent/latestnews';
@@ -22,52 +22,53 @@ const Home = () => {
   const [latestNews, setLatestNews] = useState([]);
   const [mostRead, setMostRead] = useState([]);
   const [headerNews, setHeaderNews] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('all'); // State for selected category
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false); // New state for refreshing
+
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [loading, setLoading] = useState(true); // Loading state
 
-  // Function to fetch news data based on selected category
   const fetchNewsData = async category => {
-    const apiUrl = `https://newsapi.org/v2/everything?q=${category}&pageSize=15&apiKey=6496881ae99b4ff7ba87748cf02b695f`;
-    // 0c8cdda648d74f5aac01aadf55c159be api rifki
-    // 6496881ae99b4ff7ba87748cf02b695f api reddis
-
+    const apiUrl = `https://newsapi.org/v2/everything?q=${category}&pageSize=20&apiKey=6496881ae99b4ff7ba87748cf02b695f`;
+    
     try {
       setLoading(true);
       const response = await fetch(apiUrl);
       const result = await response.json();
-
-      // Validasi dan filter data
+      
+      // Filter data
       const allArticles = result.articles.filter(
         article => article.title && article.description && article.urlToImage,
       );
 
-      // Data untuk Header
       const sortedByDate = [...allArticles].sort(
         (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt),
       );
-      setHeaderNews(sortedByDate.slice(0, 5)); // Artikel terbaru untuk header
+      setHeaderNews(sortedByDate.slice(0, 5));
 
-      // Data untuk Most Read
       const sortedByPopularity = [...allArticles].sort(
         (a, b) => (b.popularity || 0) - (a.popularity || 0),
       );
-      setMostRead(sortedByPopularity.slice(0, 7)); // Artikel terpopuler untuk Most Read
+      setMostRead(sortedByPopularity.slice(0, 7));
 
-      // Data untuk Latest News
-      setLatestNews(sortedByDate); // Semua artikel diurutkan berdasarkan tanggal
+      setLatestNews(sortedByDate);
     } catch (error) {
       console.error('Failed to fetch news data:', error);
     } finally {
-      setLoading(false); // Set loading to false after fetching data
+      setLoading(false);
+      setRefreshing(false); // Stop refreshing after data is fetched
     }
   };
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchNewsData(selectedCategory);
+  };
+
   useEffect(() => {
-    setCurrentIndex(0); // Reset index ke 0 saat kategori berubah
-    fetchNewsData(selectedCategory); // Fetch data sesuai kategori baru
+    fetchNewsData(selectedCategory);
   }, [selectedCategory]);
 
   useEffect(() => {
@@ -77,20 +78,20 @@ const Home = () => {
           currentIndex + 1 >= headerNews.length ? 0 : currentIndex + 1;
         setCurrentIndex(nextIndex);
         if (flatListRef.current && nextIndex < headerNews.length) {
-          flatListRef.current.scrollToIndex({index: nextIndex, animated: true});
+          flatListRef.current.scrollToIndex({ index: nextIndex, animated: true });
         }
       }
-    }, 3000); // 3 detik interval
+    }, 3000);
 
-    return () => clearInterval(interval); // Bersihkan interval saat unmount atau kategori berubah
+    return () => clearInterval(interval);
   }, [currentIndex, headerNews, selectedCategory]);
 
-  const renderHeaderItem = ({item}) => (
+  const renderHeaderItem = ({ item }) => (
     <TouchableOpacity
-      onPress={() => navigation.navigate('ArticleDetail', {article: item})}
+      onPress={() => navigation.navigate('ArticleDetail', { article: item })}
       style={styles.headerItemContainer}>
       <Image
-        source={{uri: item.urlToImage || 'https://via.placeholder.com/150'}}
+        source={{ uri: item.urlToImage || 'https://via.placeholder.com/150' }}
         style={styles.headerImage}
       />
       <Text style={styles.headerTitle}>
@@ -105,7 +106,6 @@ const Home = () => {
   return (
     <View style={styles.container}>
       {loading ? (
-        // Show loading indicator if data is being fetched
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#0864ED" />
           <Text style={styles.loadingText}>Loading news...</Text>
@@ -117,7 +117,6 @@ const Home = () => {
           keyExtractor={(item, index) => index.toString()}
           ListHeaderComponent={
             <>
-              {/* Search */}
               <Search />
 
               {/* Header Section */}
@@ -132,21 +131,19 @@ const Home = () => {
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={renderHeaderItem}
                     onScroll={Animated.event(
-                      [{nativeEvent: {contentOffset: {x: scrollX}}}],
-                      {useNativeDriver: false},
+                      [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                      { useNativeDriver: false },
                     )}
                   />
                 </View>
               )}
 
-              {/* Top Category Section */}
               <View style={styles.topCategorySection}>
                 <View style={styles.sectionHeader}>
                   <Text style={styles.sectionTitle}>TOP CATEGORY</Text>
                   <TouchableOpacity onPress={() => navigation.navigate('Category')}>
                     <Text style={styles.viewAllText}>View all ➜</Text>
                   </TouchableOpacity>
-
                 </View>
                 <FlatList
                   data={[
@@ -169,17 +166,15 @@ const Home = () => {
                   horizontal
                   keyExtractor={item => item.id}
                   showsHorizontalScrollIndicator={false}
-                  renderItem={({item}) => (
+                  renderItem={({ item }) => (
                     <TouchableOpacity
-                      onPress={() =>{
+                      onPress={() => {
                         if (item.name === 'All') {
                           navigation.navigate('AllNews');
                         } else {
                           setSelectedCategory(item.name.toLowerCase());
                         }
-                      }
-                        // setSelectedCategory(item.name.toLowerCase())
-                      }>
+                      }}>
                       <View style={styles.categoryCard}>
                         <Image source={item.icon} style={styles.categoryIcon} />
                         <Text style={styles.categoryText}>{item.name}</Text>
@@ -196,7 +191,9 @@ const Home = () => {
               <LatestNews articles={latestNews} />
             </>
           }
-          contentContainerStyle={{paddingBottom: 70}}
+          onRefresh={onRefresh}
+          refreshing={refreshing}  // Apply refreshing state
+          contentContainerStyle={{ paddingBottom: 70 }}
         />
       )}
 
@@ -210,7 +207,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-
   // =================================================================== Loading ===================================================================
   loadingContainer: {
     flex: 1,

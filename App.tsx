@@ -12,7 +12,7 @@ import Footer from './source/footer';
 import Home from './source/home'; 
 import Category from './source/category';
 import Profile from './source/profile'; 
-import AllNews from './source/news';  
+import AllNews from './source/newscoba';  
 import ArticleDetail from './source/detailcoba';  
 
 
