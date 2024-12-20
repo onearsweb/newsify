@@ -30,7 +30,9 @@ const Home = () => {
 
   // Function to fetch news data based on selected category
   const fetchNewsData = async category => {
-    const apiUrl = `https://newsapi.org/v2/everything?q=${category}&pageSize=15&apiKey=0c8cdda648d74f5aac01aadf55c159be`;
+    const apiUrl = `https://newsapi.org/v2/everything?q=${category}&pageSize=15&apiKey=6496881ae99b4ff7ba87748cf02b695f`;
+    // 0c8cdda648d74f5aac01aadf55c159be api rifki
+    // 6496881ae99b4ff7ba87748cf02b695f api reddis
 
     try {
       setLoading(true);
@@ -169,8 +171,14 @@ const Home = () => {
                   showsHorizontalScrollIndicator={false}
                   renderItem={({item}) => (
                     <TouchableOpacity
-                      onPress={() =>
-                        setSelectedCategory(item.name.toLowerCase())
+                      onPress={() =>{
+                        if (item.name === 'All') {
+                          navigation.navigate('AllNews');
+                        } else {
+                          setSelectedCategory(item.name.toLowerCase());
+                        }
+                      }
+                        // setSelectedCategory(item.name.toLowerCase())
                       }>
                       <View style={styles.categoryCard}>
                         <Image source={item.icon} style={styles.categoryIcon} />
