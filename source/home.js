@@ -134,6 +134,18 @@ const Home = () => {
                       [{ nativeEvent: { contentOffset: { x: scrollX } } }],
                       { useNativeDriver: false },
                     )}
+                    getItemLayout={(data, index) => ({
+                      length: Dimensions.get('window').width,
+                      offset: Dimensions.get('window').width * index,
+                      index,
+                    })}
+                    onScrollToIndexFailed={(info) => {
+                      console.warn('Scroll to index failed:', info);
+                      flatListRef.current?.scrollToOffset({
+                        offset: info.averageItemLength * info.index,
+                        animated: true,
+                      });
+                    }}
                   />
                 </View>
               )}
