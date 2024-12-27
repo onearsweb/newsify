@@ -30,7 +30,7 @@ const AllNews = () => {
 
   // Fungsi untuk mengambil data dari API
   const fetchNews = async () => {
-    const apiKey = '6496881ae99b4ff7ba87748cf02b695f';
+    const apiKey = 'b926fa57e0d942da8ec05457e3737139';
     const baseUrl = 'https://newsapi.org/v2/everything';
     const pageSize = 5; // Jumlah berita per kategori
 

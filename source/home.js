@@ -30,9 +30,10 @@ const Home = () => {
 
   // Function to fetch news data based on selected category
   const fetchNewsData = async category => {
-    const apiUrl = `https://newsapi.org/v2/everything?q=${category}&pageSize=15&apiKey=6496881ae99b4ff7ba87748cf02b695f`;
+    const apiUrl = `https://newsapi.org/v2/everything?q=${category}&pageSize=15&apiKey=b926fa57e0d942da8ec05457e3737139`;
     // 0c8cdda648d74f5aac01aadf55c159be api rifki
     // 6496881ae99b4ff7ba87748cf02b695f api reddis
+    // b926fa57e0d942da8ec05457e3737139 api wilda
 
     try {
       setLoading(true);

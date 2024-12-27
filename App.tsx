@@ -5,15 +5,14 @@
  * @format
  */
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Footer from './source/footer';
-import Home from './source/home'; 
 import Category from './source/category';
-import Profile from './source/profile'; 
-import AllNews from './source/news';  
-import ArticleDetail from './source/detailcoba';  
+import ArticleDetail from './source/detail';
+import Home from './source/home';
+import AllNews from './source/news';
+import Profile from './source/profile';
 
 
 const Stack = createNativeStackNavigator();
