@@ -185,7 +185,7 @@ const Home = () => {
                     <TouchableOpacity
                       onPress={() => {
                         if (item.name === 'All') {
-                          navigation.navigate('AllNews');
+                          navigation.navigate('AllNews', { category: item.name.toLowerCase() });
                         } else {
                           setSelectedCategory(item.name.toLowerCase());
                         }
