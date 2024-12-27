@@ -12,7 +12,7 @@ const LatestNews = ({ articles }) => {
     <View style={styles.latestNewsSection}>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>LATEST NEWS</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('AllNews', { articles })}>
+        <TouchableOpacity onPress={() => navigation.navigate('AllNews', {  category: 'all' })}>
           <Text style={styles.viewAllText}>View all ➜</Text>
         </TouchableOpacity>
       </View>
