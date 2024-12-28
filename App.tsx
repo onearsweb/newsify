@@ -11,7 +11,7 @@ import React from 'react';
 import Category from './source/category';
 import ArticleDetail from './source/detail';
 import Home from './source/home';
-import AllNews from './source/newscoba';
+import AllNews from './source/news';
 import Profile from './source/profile';
 import SearchPage from './source/homeComponent/searchpage';
 
