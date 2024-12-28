@@ -23,7 +23,27 @@ const Category = ({ navigation }) => {
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}
-            onPress={() => navigation.navigate('Home', { selectedCategory: item.name.toLowerCase() })}
+            onPress={() => {
+              if (item.name === 'All') {
+                navigation.navigate('AllNews', { category: item.name.toLowerCase() }, {  category: 'all' });
+              } else if (item.name === 'Sports') {
+                navigation.navigate('AllNews',  { category: item.name.toLowerCase() }, {  category: 'sports' });
+              } else if (item.name === 'Business') {
+                navigation.navigate('AllNews',  { category: item.name.toLowerCase() }, {  category: 'business' });
+              } else if (item.name === 'Technology') {
+                navigation.navigate('AllNews',  { category: item.name.toLowerCase() }, {  category: 'technology' });
+              } else if (item.name === 'Entertainment') {
+                navigation.navigate('AllNews',  { category: item.name.toLowerCase() }, {  category: 'entertainment' });
+              } else if (item.name === 'Health') {
+                navigation.navigate('AllNews',  { category: item.name.toLowerCase() }, {  category: 'health' });
+              } else if (item.name === 'Science') {
+                navigation.navigate('AllNews',  { category: item.name.toLowerCase() }, {  category: 'science' });
+              } else if (item.name === 'General') {
+                navigation.navigate('AllNews',  { category: item.name.toLowerCase() }, {  category: 'general' });
+              } else {
+                setSelectedCategory(item.name.toLowerCase());
+              }
+            }}
           >
             <Image source={item.icon} style={styles.icon} />
             <Text style={styles.cardText}>{item.name}</Text>
