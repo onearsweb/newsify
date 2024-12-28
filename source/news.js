@@ -20,7 +20,7 @@ const AllNews = ({route}) => {
   const {category} = route.params;
 
   const fetchNewsData = async (category, page) => {
-    const apiUrl = `https://newsapi.org/v2/everything?q=${category}&page=${page}&apiKey=0c8cdda648d74f5aac01aadf55c159be`;
+    const apiUrl = `https://newsapi.org/v2/everything?q=${category}&page=${page}&pageSize=20&apiKey=6496881ae99b4ff7ba87748cf02b695f`;
 
     try {
       setLoading(true);
