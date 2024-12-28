@@ -13,6 +13,7 @@ import ArticleDetail from './source/detail';
 import Home from './source/home';
 import AllNews from './source/news';
 import Profile from './source/profile';
+import SearchPage from './source/homeComponent/searchpage';
 
 
 const Stack = createNativeStackNavigator();
@@ -26,6 +27,7 @@ const App = () => {
         <Stack.Screen name="Category" component={Category} options={{ title: 'Category' }} />
         <Stack.Screen name="AllNews" component={AllNews} />
         <Stack.Screen name="ArticleDetail" component={ArticleDetail} />
+        <Stack.Screen name="SearchPage" component={SearchPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

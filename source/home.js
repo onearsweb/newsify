@@ -31,7 +31,7 @@ const Home = () => {
   const flatListRef = useRef(null);
 
   const fetchNewsData = async category => {
-    const apiUrl = `https://newsapi.org/v2/everything?q=${category}&pageSize=15&apiKey=b926fa57e0d942da8ec05457e3737139`;
+    const apiUrl = `https://newsapi.org/v2/everything?q=${category}&pageSize=20&apiKey=6496881ae99b4ff7ba87748cf02b695f`;
     // 0c8cdda648d74f5aac01aadf55c159be api rifki
     // 6496881ae99b4ff7ba87748cf02b695f api reddis
     // b926fa57e0d942da8ec05457e3737139 api wilda
@@ -185,11 +185,16 @@ const Home = () => {
                     <TouchableOpacity
                       onPress={() => {
                         if (item.name === 'All') {
-                          navigation.navigate('AllNews');
+                          navigation.navigate('AllNews', {  category: 'all' });
+                        } else if (item.name === 'Sports') {
+                          navigation.navigate('AllNews', {  category: 'sports' });
+                        } else if (item.name === 'Business') {
+                          navigation.navigate('AllNews', {  category: 'business' });
                         } else {
                           setSelectedCategory(item.name.toLowerCase());
                         }
-                      }}>
+                      }}
+                    >
                       <View style={styles.categoryCard}>
                         <Image source={item.icon} style={styles.categoryIcon} />
                         <Text style={styles.categoryText}>{item.name}</Text>
