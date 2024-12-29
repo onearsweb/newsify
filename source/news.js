@@ -20,7 +20,7 @@ const AllNews = ({route}) => {
   const {category} = route.params;
 
   const fetchNewsData = async (category, page) => {
-    const apiUrl = `https://newsapi.org/v2/everything?q=${category}&page=${page}&pageSize=20&apiKey=6496881ae99b4ff7ba87748cf02b695f`;
+    const apiUrl = `https://newsapi.org/v2/everything?q=${category}&pageSize=20&apiKey=6496881ae99b4ff7ba87748cf02b695f`;
 
     try {
       setLoading(true);
@@ -72,7 +72,7 @@ const AllNews = ({route}) => {
 
   return (
     <View style={styles.allNewsSection}>
-      <Text style={styles.sectionTitle}>All News</Text>
+      <Text style={styles.sectionTitle}>News</Text>
       <FlatList
         data={articles}
         renderItem={({item}) => (
@@ -86,13 +86,15 @@ const AllNews = ({route}) => {
               style={styles.articleImage}
             />
             <View style={styles.articleContent}>
-              <Text style={styles.articleTitle}numberOfLines={2}>{item.title}</Text>
+              <Text style={styles.articleTitle} numberOfLines={2}>
+                {item.title}
+              </Text>
               <Text style={styles.articleDescription} numberOfLines={2}>
                 {item.description}
               </Text>
               <View style={styles.categoryContainer}>
                 <Text style={styles.articleCategory}>
-                  category: {category || 'General'}
+                  Category: {category || 'General'}
                 </Text>
               </View>
               <TouchableOpacity
@@ -134,7 +136,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 8,
     backgroundColor: '#fff',
-    padding: 16,
+    padding: 0,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
@@ -142,6 +144,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.5,
     elevation: 5,
+    overflow: 'hidden',
   },
   articleImage: {
     width: '100%',
@@ -149,7 +152,8 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   articleContent: {
-    padding: 8,
+    padding: 17,
+    width: '107%',
   },
   articleTitle: {
     fontSize: 16,
@@ -161,25 +165,28 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#555',
     textAlign: 'justify',
+    marginBottom: 4,
   },
   categoryContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    marginTop: 10,
-    marginBottom: -8,
+    marginTop: 0,
   },
   articleCategory: {
     fontSize: 12,
     color: '#777',
     fontStyle: 'italic',
+    paddingTop: 10,
+    paddingRight: 10,
+    fontWeight: '600',
   },
   readMoreText: {
     fontSize: 13,
     color: '#0864ED',
-    marginTop: 5,
     fontWeight: 'semibold',
-    paddingTop: 20,
+    paddingTop: 10,
+    paddingLeft: 3,
   },
   footerLoader: {
     paddingVertical: 20,
