@@ -79,7 +79,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginVertical: 5,
-    color: '#000',
+    color: '#176fad',
+    fontFamily: 'Noto Serif',
   },
 });
 
