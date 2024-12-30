@@ -1,110 +1,86 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Footer from './footer';
 
-export default function ProfileScreen() {
+const Profile = () => {
   return (
     <View style={styles.container}>
-      {/* Header Image */}
-      <View style={styles.header}>
-        <Image
-          source={{ uri: 'https://imgur.com/undefined' }} 
-          style={styles.headerImage}
-        />
-      </View>
+      {/* Background Image */}
+      <Image
+        source={require('../source/assets/img/profile/header.png')} // Ganti dengan path gambar background Anda
+        style={styles.backgroundImage}
+      />
+
       {/* Profile Section */}
       <View style={styles.profileSection}>
+        {/* Profile Picture */}
         <Image
-          source={{ uri: 'https://imgur.com/BFECBwy' }} 
-          style={styles.profileImage}
+          source={require('../source/assets/img/profile/profil.png')} // Ganti dengan path gambar profil Anda
+          style={styles.profilePicture}
         />
-        <TouchableOpacity style={styles.profileButton}>
-          <Text style={styles.profileButtonText}>My Profile</Text>
-        </TouchableOpacity>
+
+        {/* Profile Button */}
+        <Text style={styles.infoText}>Kelompok Satu</Text>
       </View>
 
-      {/* Profile Details */}
-      <ScrollView>
-        <View style={styles.detailsSection}>
-          <Text style={styles.detailText}>Reddis Angel</Text>
-          <Text style={styles.detailText}>Wilda Agustina</Text>
-          <Text style={styles.detailText}>Rifki Ainul Yaqin</Text>
-          <Text style={styles.detailText}>Azilma Nuzul Yasinta</Text>
-          <Text style={styles.detailText}>Yafi Fahriza Akhsan</Text>
-        </View>
-      </ScrollView>
-
-      {/* Footer Navigation */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.navButton}>
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton}>
-          <Text style={styles.navText}>Profile</Text>
-        </TouchableOpacity>
+      {/* User Information */}
+      <View style={styles.infoSection}>
+        <Text style={styles.infoText}>Reddis Angel</Text>
+        <Text style={styles.infoText}>Wilda Agustin</Text>
+        <Text style={styles.infoText}>Rifki Ainul Yaqin</Text>
+        <Text style={styles.infoText}>Yafi Fahriza Akhsan</Text>
+        <Text style={styles.infoText}>Azilma Nuzul Yasinta</Text>
       </View>
+
+      {/* Footer */}
+      <Footer />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
   },
-  header: {
+  backgroundImage: {
     width: '100%',
     height: 200,
-  },
-  headerImage: {
-    width: '100%',
-    height: '100%',
     resizeMode: 'cover',
   },
   profileSection: {
     alignItems: 'center',
-    marginTop: -50,
+    marginTop: -50, // Untuk mengangkat bagian foto profil ke atas
   },
-  profileImage: {
+  profilePicture: {
     width: 100,
     height: 100,
     borderRadius: 50,
     borderWidth: 3,
-    borderColor: '#ffffff',
+    borderColor: '#fff',
   },
   profileButton: {
     marginTop: 10,
-    backgroundColor: '#f0f0f0',
-    paddingHorizontal: 20,
-    paddingVertical: 5,
+    backgroundColor: '#F3E9FF',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     borderRadius: 20,
   },
   profileButtonText: {
-    color: '#333333',
+    color: '#7B61FF',
+    fontSize: 14,
     fontWeight: 'bold',
   },
-  detailsSection: {
+  infoSection: {
+    alignItems: 'center',
     marginTop: 20,
-    alignItems: 'center',
   },
-  detailText: {
+  infoText: {
     fontSize: 16,
-    color: '#333333',
+    fontWeight: 'bold',
     marginVertical: 5,
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 10,
-    borderTopWidth: 1,
-    borderColor: '#dddddd',
-  },
-  navButton: {
-    alignItems: 'center',
-  },
-  navText: {
-    color: '#333333',
-    fontSize: 16,
+    color: '#000',
   },
 });
 
+export default Profile;
