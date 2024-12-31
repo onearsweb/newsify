@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const ArticleDetail = ({ route }) => {
-  const { article } = route.params; // Data artikel diterima melalui parameter route
+  const { article } = route.params;
 
   if (!article) {
     return (
@@ -12,60 +12,66 @@ const ArticleDetail = ({ route }) => {
     );
   }
 
+  // Hitung waktu baca berdasarkan jumlah kata dalam konten
+  const calculateReadTime = (text) => {
+    if (!text) return 0; // Jika tidak ada teks, waktu baca adalah 0 menit
+    const words = text.split(/\s+/).length; // Hitung jumlah kata
+    const readTime = Math.ceil(words / 200); // Asumsikan kecepatan baca 200 kata per menit
+    return readTime;
+  };
+
+  const readTime = calculateReadTime(article.content); // Hitung waktu baca untuk konten artikel
+
+  // Foto profil default atau acak
+  const profileImage =
+    article.authorImage || `https://i.pravatar.cc/150?u=${article.author}`;
+
   return (
     <ScrollView style={styles.container}>
       {/* Gambar Header */}
-      <Image 
-        source={{ uri: article.urlToImage || 'https://via.placeholder.com/200' }} 
-        style={styles.articleImage} 
+      <Image
+        source={{ uri: article.urlToImage || 'https://via.placeholder.com/200' }}
+        style={styles.articleImage}
       />
 
       {/* Konten Artikel */}
       <View style={styles.content}>
-        {/* Kategori */}
-        <View style={styles.categoryContainer}>
-          <Image 
-            source={article.category?.icon} 
-            style={styles.categoryIcon} 
-          />
-          <Text style={styles.categoryText}>{article.category?.name}</Text>
-        </View>
-
         {/* Judul */}
         <Text style={styles.title}>{article.title}</Text>
 
         {/* Informasi Penulis */}
         <View style={styles.authorContainer}>
           <Image
-            source={{
-              uri: article.urlToImage || 'https://via.placeholder.com/50',
-            }}
+            source={{ uri: profileImage }}
             style={styles.authorImage}
           />
           <View>
             <Text style={styles.authorName}>
               {article.author || 'Unknown Author'}
             </Text>
-            <Text style={styles.dateText}>
-              {article.publishedAt
-                ? new Date(article.publishedAt).toDateString()
-                : 'Unknown Date'}{' '}
-              • 8 mins read
-            </Text>
+            <View style={styles.authorDetails}>
+              <Text style={styles.dateText}>
+                {article.publishedAt
+                  ? new Date(article.publishedAt).toDateString()
+                  : 'Unknown Date'}
+              </Text>
+              <Text style={styles.readTimeText}> • {readTime} mins read</Text>
+            </View>
           </View>
         </View>
 
+        {/* Garis Pembatas */}
+        <View style={styles.divider} />
+
         {/* Deskripsi */}
         {article.description && (
-          <Text style={styles.description}>
-            {article.description}
-          </Text>
+          <Text style={styles.description}>{article.description}</Text>
         )}
 
         {/* Isi Artikel */}
         <Text style={styles.body}>
           {article.content
-            ? article.content.replace(/\[\+\d+ chars\]/, '') // Hapus simbol "[+chars]" jika ada
+            ? article.content.replace(/\[\+\d+ chars\]/, '')
             : 'No additional content available.'}
         </Text>
       </View>
@@ -81,32 +87,16 @@ const styles = StyleSheet.create({
   articleImage: {
     width: '100%',
     height: 200,
+    marginBottom: 16,
   },
   content: {
     padding: 16,
   },
-  categoryContainer: {
-    flexDirection: 'row-reverse', // Atur elemen dari kanan ke kiri
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  categoryText: {
-    fontSize: 14,
-    color: '#555', // Warna abu-abu
-    marginLeft: 8, // Jarak antara teks dan ikon
-    fontWeight: '400', // Regular
-    fontStyle: 'italic', // Teks miring
-  },
-  categoryIcon: {
-    width: 16,
-    height: 16,
-    resizeMode: 'contain',
-  },
   title: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 12,
+    marginBottom: 16,
+    color: '#000',
   },
   authorContainer: {
     flexDirection: 'row',
@@ -114,32 +104,45 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   authorImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20, // Membuat gambar menjadi bulat
-    marginRight: 8,
+    width: 50,
+    height: 50,
+    borderRadius: 25, // Membuat gambar berbentuk lingkaran
+    marginRight: 12,
   },
   authorName: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
+  },
+  authorDetails: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   dateText: {
     fontSize: 14,
     color: '#555',
   },
+  readTimeText: {
+    fontSize: 14,
+    color: '#555',
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#ddd',
+    marginVertical: 16,
+  },
   description: {
     fontSize: 16,
-    color: '#555',
+    color: '#333',
+    textAlign: 'justify',
+    lineHeight: 24,
     marginBottom: 16,
-    textAlign: 'justify', // Rata kanan-kiri
   },
   body: {
     fontSize: 16,
     lineHeight: 24,
     color: '#333',
-    marginBottom: 16,
-    textAlign: 'justify', // Rata kanan-kiri
+    textAlign: 'justify',
   },
   errorContainer: {
     flex: 1,
