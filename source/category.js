@@ -2,14 +2,14 @@ import React from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
 const categories = [
-  { id: '1', name: 'All', icon: require('../source/assets/img/category/all.png') },
-  { id: '2', name: 'Sports', icon: require('../source/assets/img/category/sports.png') },
-  { id: '3', name: 'Business', icon: require('../source/assets/img/category/business.png') },
-  { id: '4', name: 'Technology', icon: require('../source/assets/img/category/technology.png') },
-  { id: '5', name: 'Entertainment', icon: require('../source/assets/img/category/entertainment.png') },
-  { id: '6', name: 'Health', icon: require('../source/assets/img/category/health.png') },
-  { id: '7', name: 'Science', icon: require('../source/assets/img/category/science.png') },
-  { id: '8', name: 'General', icon: require('../source/assets/img/category/general.png') },
+  { id: '1', name: 'All', icon: require('../source/assets/img/category/all.png'), color: '#DFFFD6' },
+  { id: '2', name: 'Sports', icon: require('../source/assets/img/category/sports.png'), color: '#C6F9FF' },
+  { id: '3', name: 'Business', icon: require('../source/assets/img/category/business.png'), color: '#E9E7FD' },
+  { id: '4', name: 'Technology', icon: require('../source/assets/img/category/technology.png'), color: '#FFF2CF' },
+  { id: '5', name: 'Entertainment', icon: require('../source/assets/img/category/entertainment.png'), color: '#FFE5E5' },
+  { id: '6', name: 'Health', icon: require('../source/assets/img/category/health.png'), color: '#FFE0F7' },
+  { id: '7', name: 'Science', icon: require('../source/assets/img/category/science.png'), color: '#E4E7FF' },
+  { id: '8', name: 'General', icon: require('../source/assets/img/category/general.png'), color: '#DFF3FF' },
 ];
 
 const Category = ({ navigation }) => {
@@ -22,7 +22,7 @@ const Category = ({ navigation }) => {
         numColumns={2}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={styles.card}
+            style={[styles.card, {backgroundColor: item.color}]}
             onPress={() => {
               if (item.name === 'All') {
                 navigation.navigate('AllNews', { category: item.name.toLowerCase() }, {  category: 'all' });
@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     margin: 8,
-    backgroundColor: '#f9f9f9',
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',

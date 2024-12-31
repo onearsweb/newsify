@@ -166,16 +166,19 @@ const Home = () => {
                       id: '1',
                       name: 'All',
                       icon: require('../source/assets/img/category/all.png'),
+                      color: '#E4F9E0'
                     },
                     {
                       id: '2',
                       name: 'Sports',
                       icon: require('../source/assets/img/category/sports.png'),
+                      color: '#E5FFF8'
                     },
                     {
                       id: '3',
                       name: 'Business',
                       icon: require('../source/assets/img/category/business.png'),
+                      color: '#E6F0FD'
                     },
                   ]}
                   horizontal
@@ -195,7 +198,7 @@ const Home = () => {
                         }
                       }}
                     >
-                      <View style={styles.categoryCard}>
+                      <View style={[styles.categoryCard, {backgroundColor: item.color}]}>
                         <Image source={item.icon} style={styles.categoryIcon} />
                         <Text style={styles.categoryText}>{item.name}</Text>
                       </View>
