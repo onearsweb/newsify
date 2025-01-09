@@ -84,11 +84,11 @@ const styles = StyleSheet.create({
       borderColor: '#ccc',
       borderWidth: 1,
       justifyContent: 'space-between',
-      width: 378,
+      width: '100%',
       height: 100,
     },
     firstArticleCard: {
-      width: 378,
+      width: '100%',
       height: 420,
       marginBottom: 20,
       borderColor: '#ccc',
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
       marginTop: 20
     },
     firstArticleImage: {
-      width: 378,
+      width: '100%',
       height: 200,
     },
     firstArticleTextContainer: {
