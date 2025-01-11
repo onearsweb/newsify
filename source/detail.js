@@ -1,7 +1,7 @@
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native';
 
-const ArticleDetail = ({ route }) => {
+const ArticleDetail = ({ route, navigation }) => {
   const { article } = route.params;
 
   if (!article) {
@@ -12,39 +12,39 @@ const ArticleDetail = ({ route }) => {
     );
   }
 
-  // Hitung waktu baca berdasarkan jumlah kata dalam konten
   const calculateReadTime = (text) => {
-    if (!text) return 0; // Jika tidak ada teks, waktu baca adalah 0 menit
-    const words = text.split(/\s+/).length; // Hitung jumlah kata
-    const readTime = Math.ceil(words / 200); // Asumsikan kecepatan baca 200 kata per menit
-    return readTime;
+    if (!text) return 0;
+    const words = text.split(/\s+/).length;
+    return Math.ceil(words / 200);
   };
 
-  const readTime = calculateReadTime(article.content); // Hitung waktu baca untuk konten artikel
+  const readTime = calculateReadTime(article.content);
 
-  // Foto profil default atau acak
   const profileImage =
     article.authorImage || `https://i.pravatar.cc/150?u=${article.author}`;
 
   return (
-    <ScrollView style={styles.container}>
-      {/* Gambar Header */}
-      <Image
-        source={{ uri: article.urlToImage || 'https://via.placeholder.com/200' }}
-        style={styles.articleImage}
-      />
+    <View style={styles.container}>
+      {/* Header dengan Tombol Back */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Text style={styles.backText}>←</Text>
+        </TouchableOpacity>
+      </View>
 
-      {/* Konten Artikel */}
-      <View style={styles.content}>
-        {/* Judul */}
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        {/* Gambar Artikel */}
+        <Image
+          source={{ uri: article.urlToImage || 'https://via.placeholder.com/200' }}
+          style={styles.articleImage}
+        />
+
+        {/* Judul Artikel */}
         <Text style={styles.title}>{article.title}</Text>
 
         {/* Informasi Penulis */}
         <View style={styles.authorContainer}>
-          <Image
-            source={{ uri: profileImage }}
-            style={styles.authorImage}
-          />
+          <Image source={{ uri: profileImage }} style={styles.authorImage} />
           <View>
             <Text style={styles.authorName}>
               {article.author || 'Unknown Author'}
@@ -60,43 +60,71 @@ const ArticleDetail = ({ route }) => {
           </View>
         </View>
 
-        {/* Garis Pembatas */}
         <View style={styles.divider} />
 
-        {/* Deskripsi */}
+        {/* Deskripsi Artikel */}
         {article.description && (
           <Text style={styles.description}>{article.description}</Text>
         )}
 
-        {/* Isi Artikel */}
+        {/* Konten Artikel */}
         <Text style={styles.body}>
           {article.content
             ? article.content.replace(/\[\+\d+ chars\]/, '')
             : 'No additional content available.'}
         </Text>
-      </View>
-    </ScrollView>
+      </ScrollView>
+
+      {/* Tombol Baca Selengkapnya */}
+      <TouchableOpacity
+        style={styles.readMoreButton}
+        onPress={() => Linking.openURL(article.url)}>
+        <Text style={styles.readMoreText}>Baca Selengkapnya</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f9f9f9',
+  },
+  header: {
+    height: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  backText: {
+    fontSize: 30, // Ukuran panah lebih besar
+    color: '#007BFF',
+    fontWeight: 'bold',
+  },
+  contentContainer: {
+    padding: 16,
   },
   articleImage: {
     width: '100%',
     height: 200,
+    borderRadius: 10,
     marginBottom: 16,
-  },
-  content: {
-    padding: 16,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 16,
-    color: '#000',
+    color: '#222',
+    marginBottom: 8,
+    lineHeight: 28,
   },
   authorContainer: {
     flexDirection: 'row',
@@ -104,15 +132,15 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   authorImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25, // Membuat gambar berbentuk lingkaran
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     marginRight: 12,
   },
   authorName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#555',
   },
   authorDetails: {
     flexDirection: 'row',
@@ -120,29 +148,47 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 14,
-    color: '#555',
+    color: '#888',
   },
   readTimeText: {
     fontSize: 14,
-    color: '#555',
+    color: '#888',
   },
   divider: {
     height: 1,
-    backgroundColor: '#ddd',
+    backgroundColor: '#eee',
     marginVertical: 16,
   },
   description: {
-    fontSize: 16,
-    color: '#333',
+    fontSize: 16, // Sama dengan body
+    color: '#444',
     textAlign: 'justify',
     lineHeight: 24,
     marginBottom: 16,
   },
   body: {
-    fontSize: 16,
-    lineHeight: 24,
-    color: '#333',
+    fontSize: 16, // Sama dengan deskripsi
+    lineHeight: 22,
+    color: '#666',
     textAlign: 'justify',
+  },
+  readMoreButton: {
+    backgroundColor: '#007BFF',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    borderRadius: 8,
+    margin: 16,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+  },
+  readMoreText: {
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: 'bold',
   },
   errorContainer: {
     flex: 1,
