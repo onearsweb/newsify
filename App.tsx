@@ -12,6 +12,7 @@ import Category from './source/category';
 import ArticleDetail from './source/detail';
 import Home from './source/home';
 import AllNews from './source/news';
+import AllNews1 from './source/newscoba';
 import Profile from './source/profile';
 import SearchPage from './source/homeComponent/searchpage';
 
@@ -26,6 +27,7 @@ const App = () => {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Category" component={Category} options={{ title: 'Category' }} />
         <Stack.Screen name="AllNews" component={AllNews} />
+        <Stack.Screen name="AllNews1" component={AllNews1} />
         <Stack.Screen name="ArticleDetail" component={ArticleDetail} />
         <Stack.Screen name="SearchPage" component={SearchPage} />
       </Stack.Navigator>

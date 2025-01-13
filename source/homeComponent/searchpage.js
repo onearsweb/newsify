@@ -1,119 +1,82 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   TextInput,
-  FlatList,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Alert,
   ActivityIndicator,
+  TouchableOpacity,
+  Alert,
+  Image,
+  StyleSheet,
 } from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import Footer from '../footer';
 
 const SearchPage = () => {
-  const route = useRoute();
   const navigation = useNavigation();
-  const {articles} = route.params; // Retrieve 'articles' passed from previous screen
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredArticles, setFilteredArticles] = useState([]);
-  const [searchAttempted, setSearchAttempted] = useState(false); // Track if a search was attempted
+  const [filteredArticles, setFilteredArticles] = useState([]); // Store filtered articles
   const [isLoading, setIsLoading] = useState(false); // Loading state
 
-  useEffect(() => {
-    // Filter articles based on the search query
-    if (articles && searchQuery.length > 0) {
-      const filtered = articles.filter(article =>
-        article.title.toLowerCase().includes(searchQuery.toLowerCase()),
-      );
-      setFilteredArticles(filtered);
-    }
-  }, [searchQuery, articles]); // Re-run whenever searchQuery or articles changes
+  const fetchNewsData = async () => {
+    const apiUrl = `https://newsapi.org/v2/everything?q=${searchQuery}&pageSize=20&apiKey=6496881ae99b4ff7ba87748cf02b695f`;
 
-  const handleSearch = query => {
-    setSearchQuery(query);
-  };
-
-  const handleSubmit = () => {
-    if (searchQuery.trim()) {
-      setSearchAttempted(true); // Mark that search has been attempted
-      setIsLoading(true); // Show loading spinner
-      fetchNewsData(searchQuery);
-    }
-  };
-
-  const fetchNewsData = async category => {
-    const apiUrl = `https://newsapi.org/v2/everything?q=${category}&pageSize=15&apiKey=0c8cdda648d74f5aac01aadf55c159be`;
-
+    setIsLoading(true);
     try {
       const response = await fetch(apiUrl);
       const result = await response.json();
 
-      // Filter articles to ensure they have the necessary fields
-      const allArticles = result.articles.filter(
-        article => article.title && article.description && article.urlToImage,
-      );
+      if (result.articles && result.articles.length > 0) {
+        // Filter articles to ensure they have the necessary fields
+        const allArticles = result.articles.filter(
+          article => article.title && article.description && article.urlToImage
+        );
 
-      if (allArticles.length > 0) {
-        // If articles exist, navigate to AllNews page and pass the articles
-        navigation.navigate('AllNews', {articles: allArticles});
+        setFilteredArticles(allArticles); // Set filtered articles
+        // Navigate to AllNews1 with filtered articles
+        navigation.navigate('AllNews1', { articles: allArticles, refresh: true }); // Add refresh flag
       } else {
-        // Show message if no articles found
         Alert.alert(
           'No results found',
-          'No articles match your search criteria.',
+          'No articles match your search criteria.'
         );
+        setFilteredArticles([]); // Clear filtered articles
       }
     } catch (error) {
       console.error('Failed to fetch news data:', error);
       Alert.alert(
         'Error',
-        'Failed to fetch news data. Please try again later.',
+        'Failed to fetch news data. Please try again later.'
       );
     } finally {
-      setIsLoading(false); // Hide loading spinner once the request is complete
+      setIsLoading(false);
     }
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
+      <TouchableOpacity
+        style={styles.searchContainer}>
         <Image
           source={require('../assets/img/search/search.png')}
           style={styles.searchIcon}
         />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search..."
-          placeholderTextColor="#767E94"
-          value={searchQuery}
-          onChangeText={handleSearch}
-          onSubmitEditing={handleSubmit} // Trigger the search when Enter/Return is pressed
-        />
-      </View>
-
-      {/* Display loading indicator while fetching data */}
-      {isLoading ? (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#0864ED" />
-          <Text style={styles.loadingText}>Loading...</Text>
-        </View>
-      ) : // Display filtered articles
-      searchAttempted && filteredArticles.length === 0 ? (
-        <Text style={styles.noResultsText}>No articles found.</Text>
-      ) : (
-        <FlatList
-          data={filteredArticles}
-          renderItem={({item}) => (
-            <View style={styles.article}>
-              <Text>{item.title}</Text>
-            </View>
-          )}
-          keyExtractor={item => item.id.toString()}
-        />
+      {/* Search Input and Button */}
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search..."
+        placeholderTextColor="#767E94"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        onSubmitEditing={fetchNewsData}
+      />
+      {isLoading && (
+        <ActivityIndicator size="large" color="#0864ED" style={styles.loading} />
       )}
+      </TouchableOpacity>
+      <Footer />
     </View>
+
+    
   );
 };
 
@@ -148,26 +111,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_18pt-Regular',
     color: '#767E94',
   },
-  article: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-  },
-  noResultsText: {
-    textAlign: 'center',
-    color: '#767E94',
-    fontSize: 16,
-    marginTop: 20,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loadingText: {
-    marginTop: 10,
-    color: '#767E94',
-    fontSize: 16,
+  loading: {
+    marginTop: 16,
   },
 });
 
