@@ -64,10 +64,6 @@ Dengan integrasi **NewsAPI**, aplikasi ini memberikan pengalaman membaca berita 
 
 ---
 
-Tim Kami 
-
-Kami adalah kelompok yang terdiri dari lima orang yang bekerja sama dengan baik untuk mewujudkan aplikasi ini.
-
 ## Tim Pengembang Newsify
 
 1. **Azilma Nuzul Yasinta** (17221028)  
