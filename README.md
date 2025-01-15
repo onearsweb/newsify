@@ -1,3 +1,5 @@
+![Alt Text](https://github.com/onearsweb/newsify/blob/main/WhatsApp%20Image%202025-01-15%20at%2021.37.59_5b7c8b45.jpg)
+
 ## Mengenal Newsify: Aplikasi Berita yang Memanfaatkan NewsAPI untuk Informasi Real-Time
 #### Tentang Newsify📰
      Newsify adalah aplikasi berita yang di rancang untuk memudahkan kamu dalam mengakses berita terkini dari seluruh dunia dengan berbagai kategori. 
