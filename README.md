@@ -1,10 +1,10 @@
 ![Alt Text](https://github.com/onearsweb/newsify/blob/main/WhatsApp%20Image%202025-01-15%20at%2021.37.59_5b7c8b45.jpg)
 
 ## Mengenal Newsify: Aplikasi Berita yang Memanfaatkan NewsAPI untuk Informasi Real-Time
-#### Tentang Newsify📰
-     Newsify adalah aplikasi berita yang di rancang untuk memudahkan kamu dalam mengakses berita terkini dari seluruh dunia dengan berbagai kategori. 
-     Aplikasi ini memanfaatkan teknologi modern integrasi Application Programming Interface (API) agar dapat menampilkan berita terbaru secara real-time dari berbagai sumber. 
-     Hal ini memastikan bahwa kamu selalu mendapatkan informasi paling baru tanpa perlu berpindah-pindah platform atau mencari sumber berita lainnya
+## Tentang Newsify📰
+Newsify adalah aplikasi berita yang di rancang untuk memudahkan kamu dalam mengakses berita terkini dari seluruh dunia dengan berbagai kategori. 
+Aplikasi ini memanfaatkan teknologi modern integrasi Application Programming Interface (API) agar dapat menampilkan berita terbaru secara real-time dari berbagai sumber. 
+Hal ini memastikan bahwa kamu selalu mendapatkan informasi paling baru tanpa perlu berpindah-pindah platform atau mencari sumber berita lainnya
 
 ## Fitur Utama Newsify 🌐📱
 Newsify hadir dengan berbagai fitur unggulan yang dirancang untuk memberikan pengalaman membaca berita yang mudah, cepat, dan nyaman. Berikut adalah penjelasan untuk setiap fitur yang ada dalam aplikasi Newsify:
