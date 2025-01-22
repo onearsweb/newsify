@@ -1,8 +1,8 @@
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native';
 
-const ArticleDetail = ({ route }) => {
-  const { article } = route.params; // Data artikel diterima melalui parameter route
+const ArticleDetail = ({ route, navigation }) => {
+  const { article } = route.params;
 
   if (!article) {
     return (
@@ -12,101 +12,119 @@ const ArticleDetail = ({ route }) => {
     );
   }
 
+  const calculateReadTime = (text) => {
+    if (!text) return 0;
+    const words = text.split(/\s+/).length;
+    return Math.ceil(words / 200);
+  };
+
+  const readTime = calculateReadTime(article.content);
+
+  const profileImage =
+    article.authorImage || `https://i.pravatar.cc/150?u=${article.author}`;
+
   return (
-    <ScrollView style={styles.container}>
-      {/* Gambar Header */}
-      <Image 
-        source={{ uri: article.urlToImage || 'https://via.placeholder.com/200' }} 
-        style={styles.articleImage} 
-      />
+    <View style={styles.container}>
+      {/* Header dengan Tombol Back */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Text style={styles.backText}>←</Text>
+        </TouchableOpacity>
+      </View>
 
-      {/* Konten Artikel */}
-      <View style={styles.content}>
-        {/* Kategori */}
-        <View style={styles.categoryContainer}>
-          <Image 
-            source={article.category?.icon} 
-            style={styles.categoryIcon} 
-          />
-          <Text style={styles.categoryText}>{article.category?.name}</Text>
-        </View>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        {/* Gambar Artikel */}
+        <Image
+          source={{ uri: article.urlToImage || 'https://via.placeholder.com/200' }}
+          style={styles.articleImage}
+        />
 
-        {/* Judul */}
+        {/* Judul Artikel */}
         <Text style={styles.title}>{article.title}</Text>
 
         {/* Informasi Penulis */}
         <View style={styles.authorContainer}>
-          <Image
-            source={{
-              uri: article.urlToImage || 'https://via.placeholder.com/50',
-            }}
-            style={styles.authorImage}
-          />
+          <Image source={{ uri: profileImage }} style={styles.authorImage} />
           <View>
             <Text style={styles.authorName}>
               {article.author || 'Unknown Author'}
             </Text>
-            <Text style={styles.dateText}>
-              {article.publishedAt
-                ? new Date(article.publishedAt).toDateString()
-                : 'Unknown Date'}{' '}
-              • 8 mins read
-            </Text>
+            <View style={styles.authorDetails}>
+              <Text style={styles.dateText}>
+                {article.publishedAt
+                  ? new Date(article.publishedAt).toDateString()
+                  : 'Unknown Date'}
+              </Text>
+              <Text style={styles.readTimeText}> • {readTime} mins read</Text>
+            </View>
           </View>
         </View>
 
-        {/* Deskripsi */}
+        <View style={styles.divider} />
+
+        {/* Deskripsi Artikel */}
         {article.description && (
-          <Text style={styles.description}>
-            {article.description}
-          </Text>
+          <Text style={styles.description}>{article.description}</Text>
         )}
 
-        {/* Isi Artikel */}
+        {/* Konten Artikel */}
         <Text style={styles.body}>
           {article.content
-            ? article.content.replace(/\[\+\d+ chars\]/, '') // Hapus simbol "[+chars]" jika ada
+            ? article.content.replace(/\[\+\d+ chars\]/, '')
             : 'No additional content available.'}
         </Text>
-      </View>
-    </ScrollView>
+      </ScrollView>
+
+      {/* Tombol Baca Selengkapnya */}
+      <TouchableOpacity
+        style={styles.readMoreButton}
+        onPress={() => Linking.openURL(article.url)}>
+        <Text style={styles.readMoreText}>Baca Selengkapnya</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f9f9f9',
+  },
+  header: {
+    height: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  backText: {
+    fontSize: 30, // Ukuran panah lebih besar
+    color: '#007BFF',
+    fontWeight: 'bold',
+  },
+  contentContainer: {
+    padding: 16,
   },
   articleImage: {
     width: '100%',
     height: 200,
-  },
-  content: {
-    padding: 16,
-  },
-  categoryContainer: {
-    flexDirection: 'row-reverse', // Atur elemen dari kanan ke kiri
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  categoryText: {
-    fontSize: 14,
-    color: '#555', // Warna abu-abu
-    marginLeft: 8, // Jarak antara teks dan ikon
-    fontWeight: '400', // Regular
-    fontStyle: 'italic', // Teks miring
-  },
-  categoryIcon: {
-    width: 16,
-    height: 16,
-    resizeMode: 'contain',
+    borderRadius: 10,
+    marginBottom: 16,
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 12,
+    color: '#222',
+    marginBottom: 8,
+    lineHeight: 28,
   },
   authorContainer: {
     flexDirection: 'row',
@@ -116,30 +134,61 @@ const styles = StyleSheet.create({
   authorImage: {
     width: 40,
     height: 40,
-    borderRadius: 20, // Membuat gambar menjadi bulat
-    marginRight: 8,
+    borderRadius: 20,
+    marginRight: 12,
   },
   authorName: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#555',
+  },
+  authorDetails: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   dateText: {
     fontSize: 14,
-    color: '#555',
+    color: '#888',
+  },
+  readTimeText: {
+    fontSize: 14,
+    color: '#888',
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#eee',
+    marginVertical: 16,
   },
   description: {
-    fontSize: 16,
-    color: '#555',
+    fontSize: 16, // Sama dengan body
+    color: '#444',
+    textAlign: 'justify',
+    lineHeight: 24,
     marginBottom: 16,
-    textAlign: 'justify', // Rata kanan-kiri
   },
   body: {
+    fontSize: 16, // Sama dengan deskripsi
+    lineHeight: 22,
+    color: '#666',
+    textAlign: 'justify',
+  },
+  readMoreButton: {
+    backgroundColor: '#007BFF',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    borderRadius: 8,
+    margin: 16,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+  },
+  readMoreText: {
     fontSize: 16,
-    lineHeight: 24,
-    color: '#333',
-    marginBottom: 16,
-    textAlign: 'justify', // Rata kanan-kiri
+    color: '#fff',
+    fontWeight: 'bold',
   },
   errorContainer: {
     flex: 1,

@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderWidth: 1,
     justifyContent: 'space-between',
-    width: 378,
+    width: '100%',
     height: 100,
   },
   articleImage: {

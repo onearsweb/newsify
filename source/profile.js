@@ -58,6 +58,7 @@ const App = () => {
         </View>
       </View>
 
+
       {/* About Section */}
       <View style={styles.aboutSection}>
         <Text style={styles.aboutText}>
@@ -74,7 +75,6 @@ const App = () => {
         </Text>
         <Text style={styles.aboutText}>Let’s stay informed together!</Text>
       </View>
-
       {/* Team Section */}
       <View style={styles.teamSection}>
         <Text style={styles.teamDescription}>
@@ -95,6 +95,14 @@ const App = () => {
             </View>
           ))}
         </View>
+      </View>
+      {/* User Information */}
+      <View style={styles.infoSection}>
+        <Text style={styles.infoText}>Reddis Angel</Text>
+        <Text style={styles.infoText}>Wilda Agustina</Text>
+        <Text style={styles.infoText}>Rifki Ainul Yaqin</Text>
+        <Text style={styles.infoText}>Yafi Fahriza Akhsan</Text>
+        <Text style={styles.infoText}>Azilma Nuzul Yasinta</Text>
       </View>
 
       {/* Footer */}
