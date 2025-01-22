@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import Footer from './footer';
 
 const categories = [
   { id: '1', name: 'All', icon: require('../source/assets/img/category/all.png'), color: '#DFFFD6' },
@@ -50,6 +51,8 @@ const Category = ({ navigation }) => {
           </TouchableOpacity>
         )}
       />
+      {/* Footer */}
+      <Footer />
     </View>
   );
 };
