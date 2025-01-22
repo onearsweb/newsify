@@ -9,14 +9,13 @@ import {
 import {useNavigation} from '@react-navigation/native';
 
 const Search = () => {
-  const [searchQuery, setSearchQuery] = useState(''); // Optional if you still want to maintain the query state
+  const [searchQuery, setSearchQuery] = useState(''); 
   const navigation = useNavigation();
 
   const handleSearchClick = () => {
-    // Navigate to the 'SearchPage' without requiring input text
     navigation.navigate('SearchPage', {
       query: searchQuery || 'default search term',
-    }); // Optional default search term
+    });
   };
 
   return (
@@ -34,8 +33,8 @@ const Search = () => {
           placeholder="Search..."
           placeholderTextColor="#767E94"
           value={searchQuery}
-          onChangeText={setSearchQuery} // Optional if you want to track the query
-          editable={false} // Disable typing into the input
+          onChangeText={setSearchQuery}
+          editable={false} 
         />
       </TouchableOpacity>
     </View>

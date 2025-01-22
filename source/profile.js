@@ -26,7 +26,7 @@ const Profile = () => {
       {/* User Information */}
       <View style={styles.infoSection}>
         <Text style={styles.infoText}>Reddis Angel</Text>
-        <Text style={styles.infoText}>Wilda Agustin</Text>
+        <Text style={styles.infoText}>Wilda Agustina</Text>
         <Text style={styles.infoText}>Rifki Ainul Yaqin</Text>
         <Text style={styles.infoText}>Yafi Fahriza Akhsan</Text>
         <Text style={styles.infoText}>Azilma Nuzul Yasinta</Text>

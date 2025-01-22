@@ -1,79 +1,84 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+![Alt Text](https://github.com/onearsweb/newsify/blob/main/WhatsApp%20Image%202025-01-15%20at%2021.37.59_5b7c8b45.jpg)
 
-# Getting Started
+## Mengenal Newsify: Aplikasi Berita yang Memanfaatkan NewsAPI untuk Informasi Real-Time
+## Tentang Newsify📰
+Newsify adalah aplikasi berita yang di rancang untuk memudahkan kamu dalam mengakses berita terkini dari seluruh dunia dengan berbagai kategori. 
+Aplikasi ini memanfaatkan teknologi modern integrasi Application Programming Interface (API) agar dapat menampilkan berita terbaru secara real-time dari berbagai sumber. 
+Hal ini memastikan bahwa kamu selalu mendapatkan informasi paling baru tanpa perlu berpindah-pindah platform atau mencari sumber berita lainnya
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Fitur Utama Newsify 🌐📱
+Newsify hadir dengan berbagai fitur unggulan yang dirancang untuk memberikan pengalaman membaca berita yang mudah, cepat, dan nyaman. Berikut adalah penjelasan untuk setiap fitur yang ada dalam aplikasi Newsify:
 
-## Step 1: Start the Metro Server
+### 1. Halaman Utama (Beranda)
+- Semua akses berita ada di satu tempat.
+- Kolom pencarian untuk mencari berita spesifik.
+- Headline berita yang sedang hits.
+- Kategori favorit, berita yang paling sering dibaca, dan berita terbaru.
+- Navigasi bawah yang mudah dipahami untuk scrolling santai.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+### 2. Halaman Kategori
+- Menemukan berita sesuai minat jadi lebih mudah.
+- Kategori berita seperti olahraga, teknologi, hiburan, hingga kesehatan disusun dalam kartu-kartu interaktif.
 
-To start Metro, run the following command from the _root_ of your React Native project:
+### 3. Halaman Semua Berita
+- Menampilkan semua berita dengan urutan lengkap.
+- Terdapat gambar, deskripsi singkat, dan tombol "Read More".
+- Fitur "Unlimited Scroll" untuk menemukan berita terbaru tanpa batas.
 
-```bash
-# using npm
-npm start
+### 4. Halaman Detail Berita
+- Baca berita secara lengkap.
+- Informasi mencakup gambar utama, judul besar, info penulis, tanggal publikasi, dan estimasi waktu baca.
+- Layout yang rapi untuk kenyamanan membaca.
 
-# OR using Yarn
-yarn start
-```
+### 5. Halaman Profil
+- Informasi tentang tim pengembang Newsify.
+- Desain sederhana dengan navigasi yang tetap konsisten.
 
-## Step 2: Start your Application
+> **Newsify**: bikin update berita jadi gampang dan nggak ribet! Cocok banget buat kamu yang pengen selalu up-to-date tanpa effort lebih! 🚀
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+---
 
-### For Android
+## Proses Pengembangan
+Setelah menjelajahi fitur utama Newsify yang menawarkan berita real-time, kategori berita yang beragam, dan antarmuka yang sederhana, berikut adalah proses pengembangan yang dilakukan oleh tim kami untuk membuat aplikasi ini.
 
-```bash
-# using npm
-npm run android
+### 1. Perencanaan dan Desain
+- Kami memulai dengan merancang konsep aplikasi menggunakan Figma. Pada tahap ini, kami membuat prototipe antarmuka pengguna yang sederhana dan intuitif untuk memastikan navigasi yang mudah antar berbagai kategori berita.
 
-# OR using Yarn
-yarn android
-```
+### 2. Pemilihan Teknologi
+- Untuk menyajikan berita secara real-time, kami memilih NewsAPI. NewsAPI memungkinkan kami mengakses berita dari sumber terpercaya seperti BBC, CNN, dan Reuters, sehingga pengguna dapat menerima informasi terkini dengan cepat dan efisien. 
 
-### For iOS
+### 3. Pengembangan Aplikasi dengan React Native
+- Kami menggunakan React Native sebagai framework utama untuk membangun aplikasi lintas platform dengan satu basis kode, yang menghemat waktu dan usaha. Pengujian dilakukan menggunakan Android Studio sebagai emulator untuk memastikan kompatibilitas dan kinerja optimal pada berbagai ukuran layar dan versi Android. 
 
-```bash
-# using npm
-npm run ios
+### 4. Pengujian dan Debugging
+- Selama proses pengembangan, pengujian dan debugging menjadi bagian penting untuk memastikan kualitas aplikasi. Kami melakukan pengujian secara berkala untuk memastikan semua fitur berfungsi dengan baik dan memenuhi standar yang ditetapkan. 
 
-# OR using Yarn
-yarn ios
-```
+---
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+## Tujuan Pengembangan Newsify
+Pengembangan aplikasi Newsify memiliki tujuan utama untuk menerapkan teori pemrograman mobile yang telah dipelajari oleh mahasiswa. Dengan memanfaatkan berbagai konsep seperti penggunaan API, pengembangan antarmuka pengguna (UI/UX), dan pengelolaan data real-time, mahasiswa dapat mengaplikasikan pengetahuan mereka dalam konteks nyata. Selain itu, Newsify dirancang untuk menyediakan akses berita global yang mudah diakses, memungkinkan pengguna menemukan informasi dari berbagai sumber internasional dengan cepat dan efisien. 
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+Proyek ini juga berfungsi sebagai sarana untuk melatih kemampuan kolaborasi di antara mahasiswa, di mana mereka bekerja sama dari tahap perencanaan hingga implementasi. Dengan mengintegrasikan NewsAPI, aplikasi ini dapat menampilkan berita terkini secara otomatis dari sumber terpercaya, memberikan pengalaman membaca yang informatif dan up-to-date. Akhirnya, pengembangan Newsify merupakan bagian dari tugas akhir untuk menyelesaikan mata kuliah Mobile Programming II, yang menunjukkan kemampuan mahasiswa dalam mengembangkan aplikasi berbasis mobile secara keseluruhan. 
 
-## Step 3: Modifying your App
+Dengan integrasi **NewsAPI**, aplikasi ini memberikan pengalaman membaca berita yang informatif dan selalu up-to-date.
 
-Now that you have successfully run the app, let's modify it.
+---
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+## Tim Pengembang Newsify
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+1. **Azilma Nuzul Yasinta** (17221028)  
+2. **Reddis Angel** (17223016)  
+3. **Rifki Ainul Yaqin** (17221009)  
+4. **Wilda Agustina** (17223005)  
+5. **Yafi Fahriza Akhsan** (17221027)  
 
-## Congratulations! :tada:
+---
 
-You've successfully run and modified your React Native App. :partying_face:
+### Jurusan
+**Teknik Informatika**  
 
-### Now what?
+### Fakultas
+**Fakultas Teknologi Informasi**  
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+### Universitas
+**Universitas Adhirajasa Reswara Sanjaya**

@@ -10,45 +10,25 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Footer from './footer';
+import SearchPage from './homeComponent/searchpage';
 
-const AllNews = ({route}) => {
-  const [articles, setArticles] = useState([]);
+const AllNews1 = ({route}) => {
+  const [articles, setArticles] = useState(route.params.articles || []);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const navigation = useNavigation();
-  const {category} = route.params;
-
-  const fetchNewsData = async (category, page) => {
-    const apiUrl = `https://newsapi.org/v2/everything?q=${category}&page=${page}&pageSize=20&apiKey=6496881ae99b4ff7ba87748cf02b695f`;
-
-    try {
-      setLoading(true);
-      const response = await fetch(apiUrl);
-      const result = await response.json();
-
-      const allArticles = result.articles.filter(
-        article => article.title && article.description && article.urlToImage,
-      );
-
-      const updatedArticles = [...articles, ...allArticles];
-
-      const sortedArticles = updatedArticles.sort(
-        (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt),
-      );
-
-      setArticles(sortedArticles);
-      setHasMore(allArticles.length > 0);
-    } catch (error) {
-      console.error('Failed to fetch news data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
-    fetchNewsData(category, page);
-  }, [category, page]);
+    if (route.params?.refresh) {
+      // Jika ada data baru setelah pencarian, update articles
+      setArticles(route.params.articles);
+    }
+  }, [route.params?.articles]);  
+  
+  useEffect(() => {
+    // Jika perlu, Anda bisa mengubah logika untuk mengambil lebih banyak artikel.
+  }, [page]);
 
   const handleLoadMore = () => {
     if (!loading && hasMore) {
@@ -72,9 +52,10 @@ const AllNews = ({route}) => {
 
   return (
     <View style={styles.allNewsSection}>
-      <Text style={styles.sectionTitle}>All News</Text>
+      
       <FlatList
         data={articles}
+        ListHeaderComponent={<SearchPage />}
         renderItem={({item}) => (
           <TouchableOpacity
             onPress={() =>
@@ -86,15 +67,10 @@ const AllNews = ({route}) => {
               style={styles.articleImage}
             />
             <View style={styles.articleContent}>
-              <Text style={styles.articleTitle}numberOfLines={2}>{item.title}</Text>
+              <Text style={styles.articleTitle} numberOfLines={2}>{item.title}</Text>
               <Text style={styles.articleDescription} numberOfLines={2}>
                 {item.description}
               </Text>
-              <View style={styles.categoryContainer}>
-                <Text style={styles.articleCategory}>
-                  category: {category || 'General'}
-                </Text>
-              </View>
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate('ArticleDetail', {article: item})
@@ -115,6 +91,7 @@ const AllNews = ({route}) => {
   );
 };
 
+
 const styles = StyleSheet.create({
   allNewsSection: {
     flex: 1,
@@ -134,7 +111,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 8,
     backgroundColor: '#fff',
-    padding: 16,
+    padding: 0,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
@@ -142,6 +119,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.5,
     elevation: 5,
+    overflow: 'hidden',
   },
   articleImage: {
     width: '100%',
@@ -149,7 +127,8 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   articleContent: {
-    padding: 8,
+    padding: 17,
+    width: '107%',
   },
   articleTitle: {
     fontSize: 16,
@@ -161,25 +140,28 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#555',
     textAlign: 'justify',
+    marginBottom: 4,
   },
   categoryContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    marginTop: 10,
-    marginBottom: -8,
+    marginTop: 0,
   },
   articleCategory: {
     fontSize: 12,
     color: '#777',
     fontStyle: 'italic',
+    paddingTop: 10,
+    paddingRight: 10,
+    fontWeight: '600',
   },
   readMoreText: {
     fontSize: 13,
     color: '#0864ED',
-    marginTop: 5,
     fontWeight: 'semibold',
-    paddingTop: 20,
+    paddingTop: 10,
+    paddingLeft: 3,
   },
   footerLoader: {
     paddingVertical: 20,
@@ -194,4 +176,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AllNews;
+export default AllNews1;
