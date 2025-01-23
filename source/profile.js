@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-
+import Footer from './footer';
 
 const App = () => {
   const teamMembers = [
@@ -9,31 +9,31 @@ const App = () => {
       id: 1,
       name: "Rifki Ainul Yaqin",
       studentId: "17221009",
-      image: require("./source/assets/img/profile/Rifki_profil.png"),
+      image: require("../source/assets/img/profile/Rifki_profil.png"),
     },
     {
       id: 2,
       name: "Wilda Agustina",
       studentId: "17223005",
-      image: require("./source/assets/img/profile/Wilda_profil.png"),
+      image: require("../source/assets/img/profile/Wilda_profil.png"),
     },
     {
       id: 3,
       name: "Redis Angel",
       studentId: "17223016",
-      image: require("./source/assets/img/profile/Redis_profil.png"), 
+      image: require("../source/assets/img/profile/Redis_profil.png"), 
     },
     {
       id: 4,
       name: "Yafi Fahriza Akhsan",
       studentId: "17221027",
-      image: require("./source/assets/img/profile/Yafi_profil.png"),
+      image: require("../source/assets/img/profile/Yafi_profil.png"),
     },
     {
       id: 5,
       name: "Azilma Nuzul Yasinta",
       studentId: "17221028",
-      image: require("./source/assets/img/profile/Azilma_profil.png"),
+      image: require("../source/assets/img/profile/Azilma_profil.png"),
     },
   ];
   return (
@@ -41,11 +41,11 @@ const App = () => {
       {/* Header */}
       <View style={styles.header}>
         <Image
-          source={require('./source/assets/img/header.png')}
+          source={require('../source/assets/img/profile/header.png')}
           style={styles.logo}
         />
         <Image
-          source={require('./source/assets/img/profil.png')}
+          source={require('../source/assets/img/profile/profil.png')}
           style={styles.headerImage}
         />
         <View style={styles.buttonContainer}>
@@ -106,14 +106,8 @@ const App = () => {
       </View>
 
       {/* Footer */}
-      <View style={styles.footer}>
-        <TouchableOpacity>
-          <Icon name="home" size={24} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Icon name="person" size={24} />
-        </TouchableOpacity>
-      </View>
+      <Footer />
+
     </ScrollView>
   );
 };
@@ -140,7 +134,6 @@ const styles = StyleSheet.create({
   teamId: { fontSize: 14, color: "gray", marginBottom: 10 },
   iconContainer: { flexDirection: "row" },
   icon: { marginHorizontal: 5 },
-  footer: { flexDirection: "row", justifyContent: "space-around", paddingVertical: 10, borderTopWidth: 1, borderColor: "#e0e0e0" },
 });
 
 export default App;
