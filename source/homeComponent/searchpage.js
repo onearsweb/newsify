@@ -73,7 +73,6 @@ const SearchPage = () => {
         <ActivityIndicator size="large" color="#0864ED" style={styles.loading} />
       )}
       </TouchableOpacity>
-      <Footer />
     </View>
 
     
