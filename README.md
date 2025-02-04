@@ -64,6 +64,9 @@ Dengan integrasi **NewsAPI**, aplikasi ini memberikan pengalaman membaca berita 
 
 ---
 
+## Link Aplikasi
+https://drive.google.com/drive/folders/1TA9dAbpj2YmmBTZuoaRURxDOsqXrEcwW
+
 ## Tim Pengembang Newsify
 
 1. **Azilma Nuzul Yasinta** (17221028)  
